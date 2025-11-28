@@ -4553,9 +4553,9 @@ local function C_146()
 
 	local old = joinDiscord.TextLabel.Text
 	joinDiscord.MouseButton1Click:Connect(function()
-		(setclipboard or function() end)("ur discord url here")
+		(setclipboard or function() end)("https://discord.gg/enzostudios")
 		task.spawn(function()
-			joinDiscord.TextLabel.Text = "https://discord.gg/enzostudios"
+			joinDiscord.TextLabel.Text = "URL Copied!"
 			task.wait(2)
 			joinDiscord.TextLabel.Text = old
 		end)
