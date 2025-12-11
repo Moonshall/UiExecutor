@@ -3212,6 +3212,7 @@ G2L["145"]["Size"] = UDim2.new(0.34957, 0, 0.88837, 0);
 G2L["145"]["Position"] = UDim2.new(0.69547, 0, 0.48814, 0);
 G2L["145"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["145"]["Name"] = [[KeySystem]];
+G2L["145"]["Visible"] = true;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.KeySysHandler
@@ -4751,6 +4752,10 @@ local function C_146()
 	local continueBtn  = elements.Continue
 
 	local savedKeyFileName = "savedKey.txt"
+	
+	-- Initialize visibility
+	keySysFrame.Visible = true
+	mainFrame.Visible = false
 
 	-- luarmor
 	local api = nil
@@ -4846,8 +4851,13 @@ local function C_146()
 
 	local function unlockMain()
 		--floatIcon.Visible = true
+		-- Hide KeySystem
 		game:GetService("TweenService"):Create(keySysFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(0,-10,0.5,0)}):Play()
-
+		task.delay(0.3, function()
+			keySysFrame.Visible = false
+		end)
+		
+		-- Show mainFrame
 		mainFrame.Position = UDim2.new(1.5, 0,0.5, 0)
 		mainFrame.Visible = true
 		game:GetService("TweenService"):Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, 0,0.5, 0)}):Play()
@@ -4900,7 +4910,10 @@ local function C_146()
 
 		local result, code = checkKey(key)
 		if result then
-			saveKey(key)
+			-- Jangan save test key
+			if key ~= "testK3y_Enzo" then
+				saveKey(key)
+			end
 			continueBtn.TextLabel.Text = "WELCOME"
 			task.wait(0.75)
 			unlockMain()
