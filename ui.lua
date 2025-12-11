@@ -4753,8 +4753,21 @@ local function C_146()
 	local savedKeyFileName = "savedKey.txt"
 
 	-- luarmor
-	local api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
-	api.script_id = "5e98496b02a8a38fca58521631b95a07"
+	local api = nil
+	local luarmorLoaded = false
+	
+	local success, result = pcall(function()
+		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
+	end)
+	
+	if success and result then
+		api = result
+		api.script_id = "5e98496b02a8a38fca58521631b95a07"
+		luarmorLoaded = true
+		print("[ENZO] Luarmor API loaded successfully")
+	else
+		warn("[ENZO] Failed to load Luarmor API:", result)
+	end
 
 	local function getFriendlyCode(code)
 		local codes = {
@@ -4772,18 +4785,37 @@ local function C_146()
 	end
 
 	local function checkKey(keyInput)
-		-- placeholder for now
+		if not keyInput or keyInput == "" then
+			return false, "KEY_INVALID"
+		end
+		
+		-- Testkey fallback
 		if keyInput == "testK3y_Enzo" then
-			return true
-		else
-			local status = api.check_key(keyInput);
-			if (status.code == "KEY_VALID") then
+			return true, "KEY_VALID"
+		end
+		
+		-- Check if Luarmor is loaded
+		if not luarmorLoaded or not api then
+			warn("[ENZO] Luarmor not loaded, cannot validate key")
+			return false, "KEY_INVALID"
+		end
+		
+		-- Validate with Luarmor
+		local success, status = pcall(function()
+			return api.check_key(keyInput)
+		end)
+		
+		if success and status then
+			print("[ENZO] Key check result:", status.code)
+			if status.code == "KEY_VALID" then
 				return true, status.code
 			else
 				return false, status.code
 			end
+		else
+			warn("[ENZO] Error checking key:", status)
+			return false, "KEY_INVALID"
 		end
-
 	end
 
 	local function saveKey(keyInput)
