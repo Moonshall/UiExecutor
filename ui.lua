@@ -7,8 +7,9 @@
  Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
 ]=]
 
--- Instances: 378 | Scripts: 15 | Modules: 0 | Tags: 0
+-- Instances: 379 | Scripts: 15 | Modules: 1 | Tags: 0
 local G2L = {};
+
 -- StarterGui.! | ENZO
 G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
 G2L["1"]["IgnoreGuiInset"] = true;
@@ -3213,512 +3214,730 @@ G2L["145"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["145"]["Name"] = [[KeySystem]];
 
 
--- StarterGui.! | ENZO.Frames.KeySystem.KeySysHand;er
+-- StarterGui.! | ENZO.Frames.KeySystem.KeySysHandler
 G2L["146"] = Instance.new("LocalScript", G2L["145"]);
-G2L["146"]["Name"] = [[KeySysHand;er]];
+G2L["146"]["Name"] = [[KeySysHandler]];
+
+
+-- StarterGui.! | ENZO.Frames.KeySystem.KeySysHandler.VirtualFS
+G2L["147"] = Instance.new("ModuleScript", G2L["146"]);
+G2L["147"]["Name"] = [[VirtualFS]];
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.UICorner
-G2L["147"] = Instance.new("UICorner", G2L["145"]);
-G2L["147"]["CornerRadius"] = UDim.new(0.075, 0);
+G2L["148"] = Instance.new("UICorner", G2L["145"]);
+G2L["148"]["CornerRadius"] = UDim.new(0.075, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame
-G2L["148"] = Instance.new("Frame", G2L["145"]);
-G2L["148"]["BorderSizePixel"] = 0;
-G2L["148"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["148"]["Size"] = UDim2.new(0.82215, 0, 0.60684, 0);
-G2L["148"]["Position"] = UDim2.new(0.087, 0, 0.195, 0);
-G2L["148"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["148"]["BackgroundTransparency"] = 0.999;
+G2L["149"] = Instance.new("Frame", G2L["145"]);
+G2L["149"]["BorderSizePixel"] = 0;
+G2L["149"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["149"]["Size"] = UDim2.new(0.82215, 0, 0.60684, 0);
+G2L["149"]["Position"] = UDim2.new(0.087, 0, 0.195, 0);
+G2L["149"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["149"]["BackgroundTransparency"] = 0.999;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey
-G2L["149"] = Instance.new("ImageButton", G2L["148"]);
-G2L["149"]["BorderSizePixel"] = 0;
-G2L["149"]["ImageTransparency"] = 0.6;
-G2L["149"]["BackgroundTransparency"] = 1;
+G2L["14a"] = Instance.new("ImageButton", G2L["149"]);
+G2L["14a"]["BorderSizePixel"] = 0;
+G2L["14a"]["ImageTransparency"] = 0.6;
+G2L["14a"]["BackgroundTransparency"] = 1;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["149"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["149"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
-G2L["149"]["Image"] = [[rbxassetid://83688012004614]];
-G2L["149"]["Size"] = UDim2.new(0.996, 0, 0.16802, 0);
-G2L["149"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["149"]["Name"] = [[GetKey]];
-G2L["149"]["Position"] = UDim2.new(0.00787, 0, 0.80599, 0);
+G2L["14a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["14a"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
+G2L["14a"]["Image"] = [[rbxassetid://83688012004614]];
+G2L["14a"]["Size"] = UDim2.new(0.996, 0, 0.16802, 0);
+G2L["14a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["14a"]["Name"] = [[GetKey]];
+G2L["14a"]["Position"] = UDim2.new(0.00787, 0, 0.80599, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.UICorner
-G2L["14a"] = Instance.new("UICorner", G2L["149"]);
-G2L["14a"]["CornerRadius"] = UDim.new(0.3, 0);
+G2L["14b"] = Instance.new("UICorner", G2L["14a"]);
+G2L["14b"]["CornerRadius"] = UDim.new(0.3, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.TextLabel
-G2L["14b"] = Instance.new("TextLabel", G2L["149"]);
-G2L["14b"]["TextWrapped"] = true;
-G2L["14b"]["BorderSizePixel"] = 0;
-G2L["14b"]["TextSize"] = 14;
-G2L["14b"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["14b"]["TextScaled"] = true;
-G2L["14b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["14b"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["14b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["14b"]["BackgroundTransparency"] = 1;
-G2L["14b"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["14b"]["Size"] = UDim2.new(0.275, 0, 0.25092, 0);
-G2L["14b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["14b"]["Text"] = [[GET KEY]];
-G2L["14b"]["Position"] = UDim2.new(0.32, 0, 0.5, 0);
+G2L["14c"] = Instance.new("TextLabel", G2L["14a"]);
+G2L["14c"]["TextWrapped"] = true;
+G2L["14c"]["BorderSizePixel"] = 0;
+G2L["14c"]["TextSize"] = 14;
+G2L["14c"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["14c"]["TextScaled"] = true;
+G2L["14c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["14c"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["14c"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["14c"]["BackgroundTransparency"] = 1;
+G2L["14c"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["14c"]["Size"] = UDim2.new(0.275, 0, 0.25092, 0);
+G2L["14c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["14c"]["Text"] = [[GET KEY]];
+G2L["14c"]["Position"] = UDim2.new(0.32, 0, 0.5, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame
-G2L["14c"] = Instance.new("Frame", G2L["149"]);
-G2L["14c"]["BorderSizePixel"] = 0;
-G2L["14c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["14c"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["14c"]["Size"] = UDim2.new(0.17991, 0, 0.6771, 0);
-G2L["14c"]["Position"] = UDim2.new(0.082, 0, 0.5, 0);
-G2L["14c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["14c"]["BackgroundTransparency"] = 0.2;
+G2L["14d"] = Instance.new("Frame", G2L["14a"]);
+G2L["14d"]["BorderSizePixel"] = 0;
+G2L["14d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["14d"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["14d"]["Size"] = UDim2.new(0.17991, 0, 0.6771, 0);
+G2L["14d"]["Position"] = UDim2.new(0.082, 0, 0.5, 0);
+G2L["14d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["14d"]["BackgroundTransparency"] = 0.2;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame.UICorner
-G2L["14d"] = Instance.new("UICorner", G2L["14c"]);
-G2L["14d"]["CornerRadius"] = UDim.new(0.36, 0);
+G2L["14e"] = Instance.new("UICorner", G2L["14d"]);
+G2L["14e"]["CornerRadius"] = UDim.new(0.36, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame.Frame
-G2L["14e"] = Instance.new("Frame", G2L["14c"]);
-G2L["14e"]["BorderSizePixel"] = 0;
-G2L["14e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["14e"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["14e"]["Size"] = UDim2.new(0.14513, 0, 0.43826, 0);
-G2L["14e"]["Position"] = UDim2.new(-0.252, 0, 0.5, 0);
-G2L["14e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["14f"] = Instance.new("Frame", G2L["14d"]);
+G2L["14f"]["BorderSizePixel"] = 0;
+G2L["14f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["14f"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["14f"]["Size"] = UDim2.new(0.14513, 0, 0.43826, 0);
+G2L["14f"]["Position"] = UDim2.new(-0.252, 0, 0.5, 0);
+G2L["14f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame.Frame.UICorner
-G2L["14f"] = Instance.new("UICorner", G2L["14e"]);
-G2L["14f"]["CornerRadius"] = UDim.new(1, 0);
+G2L["150"] = Instance.new("UICorner", G2L["14f"]);
+G2L["150"]["CornerRadius"] = UDim.new(1, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame.Frame.UIGradient
-G2L["150"] = Instance.new("UIGradient", G2L["14e"]);
-G2L["150"]["Rotation"] = 60;
-G2L["150"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
+G2L["151"] = Instance.new("UIGradient", G2L["14f"]);
+G2L["151"]["Rotation"] = 60;
+G2L["151"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame.ImageLabel
-G2L["151"] = Instance.new("ImageLabel", G2L["14c"]);
-G2L["151"]["BorderSizePixel"] = 0;
-G2L["151"]["ScaleType"] = Enum.ScaleType.Fit;
-G2L["151"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["151"]["ImageTransparency"] = 0.2;
+G2L["152"] = Instance.new("ImageLabel", G2L["14d"]);
+G2L["152"]["BorderSizePixel"] = 0;
+G2L["152"]["ScaleType"] = Enum.ScaleType.Fit;
+G2L["152"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["152"]["ImageTransparency"] = 0.2;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["151"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["151"]["Image"] = [[rbxassetid://106480654112988]];
-G2L["151"]["Size"] = UDim2.new(0.558, 0, 0.558, 0);
-G2L["151"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["151"]["BackgroundTransparency"] = 1;
-G2L["151"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+G2L["152"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["152"]["Image"] = [[rbxassetid://106480654112988]];
+G2L["152"]["Size"] = UDim2.new(0.558, 0, 0.558, 0);
+G2L["152"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["152"]["BackgroundTransparency"] = 1;
+G2L["152"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame.UIGradient
-G2L["152"] = Instance.new("UIGradient", G2L["14c"]);
-G2L["152"]["Rotation"] = 60;
-G2L["152"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
+G2L["153"] = Instance.new("UIGradient", G2L["14d"]);
+G2L["153"]["Rotation"] = 60;
+G2L["153"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Frame.UIAspectRatioConstraint
-G2L["153"] = Instance.new("UIAspectRatioConstraint", G2L["14c"]);
-G2L["153"]["AspectRatio"] = 0.99504;
+G2L["154"] = Instance.new("UIAspectRatioConstraint", G2L["14d"]);
+G2L["154"]["AspectRatio"] = 0.99504;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.ImageLabel
-G2L["154"] = Instance.new("ImageLabel", G2L["149"]);
-G2L["154"]["BorderSizePixel"] = 0;
-G2L["154"]["ScaleType"] = Enum.ScaleType.Fit;
-G2L["154"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["154"]["ImageTransparency"] = 0.8;
+G2L["155"] = Instance.new("ImageLabel", G2L["14a"]);
+G2L["155"]["BorderSizePixel"] = 0;
+G2L["155"]["ScaleType"] = Enum.ScaleType.Fit;
+G2L["155"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["155"]["ImageTransparency"] = 0.8;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["154"]["Image"] = [[rbxassetid://73617481494303]];
-G2L["154"]["Size"] = UDim2.new(0.21679, 0, 0.6771, 0);
-G2L["154"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["154"]["BackgroundTransparency"] = 1;
-G2L["154"]["Position"] = UDim2.new(0.78321, 0, 0.16002, 0);
+G2L["155"]["Image"] = [[rbxassetid://73617481494303]];
+G2L["155"]["Size"] = UDim2.new(0.21679, 0, 0.6771, 0);
+G2L["155"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["155"]["BackgroundTransparency"] = 1;
+G2L["155"]["Position"] = UDim2.new(0.78321, 0, 0.16002, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.Spacing
-G2L["155"] = Instance.new("Frame", G2L["149"]);
-G2L["155"]["BorderSizePixel"] = 0;
-G2L["155"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["155"]["Size"] = UDim2.new(1, 0, 0.33717, 0);
-G2L["155"]["Position"] = UDim2.new(0, 0, 1, 0);
-G2L["155"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["155"]["Name"] = [[Spacing]];
-G2L["155"]["BackgroundTransparency"] = 1;
+G2L["156"] = Instance.new("Frame", G2L["14a"]);
+G2L["156"]["BorderSizePixel"] = 0;
+G2L["156"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["156"]["Size"] = UDim2.new(1, 0, 0.33717, 0);
+G2L["156"]["Position"] = UDim2.new(0, 0, 1, 0);
+G2L["156"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["156"]["Name"] = [[Spacing]];
+G2L["156"]["BackgroundTransparency"] = 1;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.GetKey.UIStroke
-G2L["156"] = Instance.new("UIStroke", G2L["149"]);
-G2L["156"]["Color"] = Color3.fromRGB(30, 45, 67);
+G2L["157"] = Instance.new("UIStroke", G2L["14a"]);
+G2L["157"]["Color"] = Color3.fromRGB(30, 45, 67);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.InputKey
-G2L["157"] = Instance.new("ImageButton", G2L["148"]);
-G2L["157"]["BorderSizePixel"] = 0;
-G2L["157"]["ImageTransparency"] = 0.6;
-G2L["157"]["BackgroundTransparency"] = 1;
+G2L["158"] = Instance.new("ImageButton", G2L["149"]);
+G2L["158"]["BorderSizePixel"] = 0;
+G2L["158"]["ImageTransparency"] = 0.6;
+G2L["158"]["BackgroundTransparency"] = 1;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["157"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["157"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
-G2L["157"]["Image"] = [[rbxassetid://83688012004614]];
-G2L["157"]["Size"] = UDim2.new(0.996, 0, 0.10086, 0);
-G2L["157"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["157"]["Name"] = [[InputKey]];
-G2L["157"]["Position"] = UDim2.new(-0.00394, 0, 0.07687, 0);
+G2L["158"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["158"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
+G2L["158"]["Image"] = [[rbxassetid://83688012004614]];
+G2L["158"]["Size"] = UDim2.new(0.996, 0, 0.10086, 0);
+G2L["158"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["158"]["Name"] = [[InputKey]];
+G2L["158"]["Position"] = UDim2.new(-0.00394, 0, 0.07687, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.InputKey.UICorner
-G2L["158"] = Instance.new("UICorner", G2L["157"]);
-G2L["158"]["CornerRadius"] = UDim.new(0.3, 0);
+G2L["159"] = Instance.new("UICorner", G2L["158"]);
+G2L["159"]["CornerRadius"] = UDim.new(0.3, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.InputKey.UIStroke
-G2L["159"] = Instance.new("UIStroke", G2L["157"]);
-G2L["159"]["Color"] = Color3.fromRGB(30, 45, 67);
+G2L["15a"] = Instance.new("UIStroke", G2L["158"]);
+G2L["15a"]["Color"] = Color3.fromRGB(30, 45, 67);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.InputKey.TextBox
-G2L["15a"] = Instance.new("TextBox", G2L["157"]);
-G2L["15a"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["15a"]["BorderSizePixel"] = 0;
-G2L["15a"]["TextWrapped"] = true;
-G2L["15a"]["TextSize"] = 20;
-G2L["15a"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["15a"]["TextScaled"] = true;
-G2L["15a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["15a"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["15a"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["15a"]["PlaceholderText"] = [[Enter key here...]];
-G2L["15a"]["Size"] = UDim2.new(1, 0, 0.6, 0);
-G2L["15a"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
-G2L["15a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["15a"]["Text"] = [[]];
-G2L["15a"]["BackgroundTransparency"] = 1;
+G2L["15b"] = Instance.new("TextBox", G2L["158"]);
+G2L["15b"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["15b"]["BorderSizePixel"] = 0;
+G2L["15b"]["TextWrapped"] = true;
+G2L["15b"]["TextSize"] = 20;
+G2L["15b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["15b"]["TextScaled"] = true;
+G2L["15b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["15b"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["15b"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["15b"]["PlaceholderText"] = [[Enter key here...]];
+G2L["15b"]["Size"] = UDim2.new(1, 0, 0.6, 0);
+G2L["15b"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+G2L["15b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["15b"]["Text"] = [[]];
+G2L["15b"]["BackgroundTransparency"] = 1;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.InputKey.UIPadding
-G2L["15b"] = Instance.new("UIPadding", G2L["157"]);
-G2L["15b"]["PaddingLeft"] = UDim.new(0.06, 0);
+G2L["15c"] = Instance.new("UIPadding", G2L["158"]);
+G2L["15c"]["PaddingLeft"] = UDim.new(0.06, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.Continue
-G2L["15c"] = Instance.new("ImageButton", G2L["148"]);
-G2L["15c"]["BorderSizePixel"] = 0;
-G2L["15c"]["ImageTransparency"] = 0.6;
-G2L["15c"]["BackgroundTransparency"] = 1;
+G2L["15d"] = Instance.new("ImageButton", G2L["149"]);
+G2L["15d"]["BorderSizePixel"] = 0;
+G2L["15d"]["ImageTransparency"] = 0.6;
+G2L["15d"]["BackgroundTransparency"] = 1;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["15c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["15c"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
-G2L["15c"]["Image"] = [[rbxassetid://83688012004614]];
-G2L["15c"]["Size"] = UDim2.new(0.996, 0, 0.13569, 0);
-G2L["15c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["15c"]["Name"] = [[Continue]];
-G2L["15c"]["Position"] = UDim2.new(-0.00394, 0, 0.25005, 0);
+G2L["15d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["15d"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
+G2L["15d"]["Image"] = [[rbxassetid://83688012004614]];
+G2L["15d"]["Size"] = UDim2.new(0.996, 0, 0.13569, 0);
+G2L["15d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["15d"]["Name"] = [[Continue]];
+G2L["15d"]["Position"] = UDim2.new(-0.00394, 0, 0.25005, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.Continue.UICorner
-G2L["15d"] = Instance.new("UICorner", G2L["15c"]);
-G2L["15d"]["CornerRadius"] = UDim.new(0.22, 0);
+G2L["15e"] = Instance.new("UICorner", G2L["15d"]);
+G2L["15e"]["CornerRadius"] = UDim.new(0.22, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.Continue.ImageLabel
-G2L["15e"] = Instance.new("ImageLabel", G2L["15c"]);
-G2L["15e"]["BorderSizePixel"] = 0;
-G2L["15e"]["ScaleType"] = Enum.ScaleType.Fit;
-G2L["15e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["15e"]["ImageTransparency"] = 0.8;
+G2L["15f"] = Instance.new("ImageLabel", G2L["15d"]);
+G2L["15f"]["BorderSizePixel"] = 0;
+G2L["15f"]["ScaleType"] = Enum.ScaleType.Fit;
+G2L["15f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["15f"]["ImageTransparency"] = 0.8;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["15e"]["Image"] = [[rbxassetid://73617481494303]];
-G2L["15e"]["Size"] = UDim2.new(0.15201, 0, 0.74217, 0);
-G2L["15e"]["Visible"] = false;
-G2L["15e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["15e"]["BackgroundTransparency"] = 1;
-G2L["15e"]["Position"] = UDim2.new(0.81091, 0, 0.12518, 0);
+G2L["15f"]["Image"] = [[rbxassetid://73617481494303]];
+G2L["15f"]["Size"] = UDim2.new(0.15201, 0, 0.74217, 0);
+G2L["15f"]["Visible"] = false;
+G2L["15f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["15f"]["BackgroundTransparency"] = 1;
+G2L["15f"]["Position"] = UDim2.new(0.81091, 0, 0.12518, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.Continue.Icon
-G2L["15f"] = Instance.new("ImageLabel", G2L["15c"]);
-G2L["15f"]["BorderSizePixel"] = 0;
-G2L["15f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["15f"]["Size"] = UDim2.new(0.20169, 0, 0.49728, 0);
-G2L["15f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["15f"]["BackgroundTransparency"] = 1;
-G2L["15f"]["Name"] = [[Icon]];
-G2L["15f"]["Position"] = UDim2.new(0.09364, 0, 0.24927, 0);
+G2L["160"] = Instance.new("ImageLabel", G2L["15d"]);
+G2L["160"]["BorderSizePixel"] = 0;
+G2L["160"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["160"]["Size"] = UDim2.new(0.20169, 0, 0.49728, 0);
+G2L["160"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["160"]["BackgroundTransparency"] = 1;
+G2L["160"]["Name"] = [[Icon]];
+G2L["160"]["Position"] = UDim2.new(0.09364, 0, 0.24927, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.Continue.Icon.UICorner
-G2L["160"] = Instance.new("UICorner", G2L["15f"]);
-G2L["160"]["CornerRadius"] = UDim.new(0.3, 0);
+G2L["161"] = Instance.new("UICorner", G2L["160"]);
+G2L["161"]["CornerRadius"] = UDim.new(0.3, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.Continue.UIStroke
-G2L["161"] = Instance.new("UIStroke", G2L["15c"]);
-G2L["161"]["Color"] = Color3.fromRGB(30, 45, 67);
+G2L["162"] = Instance.new("UIStroke", G2L["15d"]);
+G2L["162"]["Color"] = Color3.fromRGB(30, 45, 67);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.Continue.TextLabel
-G2L["162"] = Instance.new("TextLabel", G2L["15c"]);
-G2L["162"]["TextWrapped"] = true;
-G2L["162"]["BorderSizePixel"] = 0;
-G2L["162"]["TextSize"] = 14;
-G2L["162"]["TextScaled"] = true;
-G2L["162"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["162"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["162"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["162"]["BackgroundTransparency"] = 1;
-G2L["162"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["162"]["Size"] = UDim2.new(0.475, 0, 0.351, 0);
-G2L["162"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["162"]["Text"] = [[CONTINUE]];
-G2L["162"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+G2L["163"] = Instance.new("TextLabel", G2L["15d"]);
+G2L["163"]["TextWrapped"] = true;
+G2L["163"]["BorderSizePixel"] = 0;
+G2L["163"]["TextSize"] = 14;
+G2L["163"]["TextScaled"] = true;
+G2L["163"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["163"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["163"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["163"]["BackgroundTransparency"] = 1;
+G2L["163"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["163"]["Size"] = UDim2.new(0.475, 0, 0.351, 0);
+G2L["163"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["163"]["Text"] = [[CONTINUE]];
+G2L["163"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord
-G2L["163"] = Instance.new("ImageButton", G2L["148"]);
-G2L["163"]["BorderSizePixel"] = 0;
-G2L["163"]["ImageTransparency"] = 0.6;
-G2L["163"]["BackgroundTransparency"] = 1;
+G2L["164"] = Instance.new("ImageButton", G2L["149"]);
+G2L["164"]["BorderSizePixel"] = 0;
+G2L["164"]["ImageTransparency"] = 0.6;
+G2L["164"]["BackgroundTransparency"] = 1;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["163"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["163"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
-G2L["163"]["Image"] = [[rbxassetid://83688012004614]];
-G2L["163"]["Size"] = UDim2.new(0.996, 0, 0.16802, 0);
-G2L["163"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["163"]["Name"] = [[JoinDiscord]];
-G2L["163"]["Position"] = UDim2.new(0.00787, 0, 1.06388, 0);
+G2L["164"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["164"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
+G2L["164"]["Image"] = [[rbxassetid://83688012004614]];
+G2L["164"]["Size"] = UDim2.new(0.996, 0, 0.16802, 0);
+G2L["164"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["164"]["Name"] = [[JoinDiscord]];
+G2L["164"]["Position"] = UDim2.new(0.00787, 0, 1.06388, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.UICorner
-G2L["164"] = Instance.new("UICorner", G2L["163"]);
-G2L["164"]["CornerRadius"] = UDim.new(0.3, 0);
+G2L["165"] = Instance.new("UICorner", G2L["164"]);
+G2L["165"]["CornerRadius"] = UDim.new(0.3, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.TextLabel
-G2L["165"] = Instance.new("TextLabel", G2L["163"]);
-G2L["165"]["TextWrapped"] = true;
-G2L["165"]["BorderSizePixel"] = 0;
-G2L["165"]["TextSize"] = 14;
-G2L["165"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["165"]["TextScaled"] = true;
-G2L["165"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["165"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["165"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["165"]["BackgroundTransparency"] = 1;
-G2L["165"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["165"]["Size"] = UDim2.new(0.3896, 0, 0.25092, 0);
-G2L["165"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["165"]["Text"] = [[JOIN DISCORD]];
-G2L["165"]["Position"] = UDim2.new(0.32, 0, 0.5, 0);
+G2L["166"] = Instance.new("TextLabel", G2L["164"]);
+G2L["166"]["TextWrapped"] = true;
+G2L["166"]["BorderSizePixel"] = 0;
+G2L["166"]["TextSize"] = 14;
+G2L["166"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["166"]["TextScaled"] = true;
+G2L["166"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["166"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["166"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["166"]["BackgroundTransparency"] = 1;
+G2L["166"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["166"]["Size"] = UDim2.new(0.3896, 0, 0.25092, 0);
+G2L["166"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["166"]["Text"] = [[JOIN DISCORD]];
+G2L["166"]["Position"] = UDim2.new(0.32, 0, 0.5, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame
-G2L["166"] = Instance.new("Frame", G2L["163"]);
-G2L["166"]["BorderSizePixel"] = 0;
-G2L["166"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["166"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["166"]["Size"] = UDim2.new(0.17991, 0, 0.6771, 0);
-G2L["166"]["Position"] = UDim2.new(0.082, 0, 0.5, 0);
-G2L["166"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["166"]["BackgroundTransparency"] = 0.2;
+G2L["167"] = Instance.new("Frame", G2L["164"]);
+G2L["167"]["BorderSizePixel"] = 0;
+G2L["167"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["167"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["167"]["Size"] = UDim2.new(0.17991, 0, 0.6771, 0);
+G2L["167"]["Position"] = UDim2.new(0.082, 0, 0.5, 0);
+G2L["167"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["167"]["BackgroundTransparency"] = 0.2;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame.UICorner
-G2L["167"] = Instance.new("UICorner", G2L["166"]);
-G2L["167"]["CornerRadius"] = UDim.new(0.36, 0);
+G2L["168"] = Instance.new("UICorner", G2L["167"]);
+G2L["168"]["CornerRadius"] = UDim.new(0.36, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame.Frame
-G2L["168"] = Instance.new("Frame", G2L["166"]);
-G2L["168"]["BorderSizePixel"] = 0;
-G2L["168"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["168"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["168"]["Size"] = UDim2.new(0.14513, 0, 0.43826, 0);
-G2L["168"]["Position"] = UDim2.new(-0.252, 0, 0.5, 0);
-G2L["168"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["169"] = Instance.new("Frame", G2L["167"]);
+G2L["169"]["BorderSizePixel"] = 0;
+G2L["169"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["169"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["169"]["Size"] = UDim2.new(0.14513, 0, 0.43826, 0);
+G2L["169"]["Position"] = UDim2.new(-0.252, 0, 0.5, 0);
+G2L["169"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame.Frame.UICorner
-G2L["169"] = Instance.new("UICorner", G2L["168"]);
-G2L["169"]["CornerRadius"] = UDim.new(1, 0);
+G2L["16a"] = Instance.new("UICorner", G2L["169"]);
+G2L["16a"]["CornerRadius"] = UDim.new(1, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame.Frame.UIGradient
-G2L["16a"] = Instance.new("UIGradient", G2L["168"]);
-G2L["16a"]["Rotation"] = 60;
-G2L["16a"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
+G2L["16b"] = Instance.new("UIGradient", G2L["169"]);
+G2L["16b"]["Rotation"] = 60;
+G2L["16b"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame.ImageLabel
-G2L["16b"] = Instance.new("ImageLabel", G2L["166"]);
-G2L["16b"]["BorderSizePixel"] = 0;
-G2L["16b"]["ScaleType"] = Enum.ScaleType.Fit;
-G2L["16b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["16b"]["ImageTransparency"] = 0.2;
+G2L["16c"] = Instance.new("ImageLabel", G2L["167"]);
+G2L["16c"]["BorderSizePixel"] = 0;
+G2L["16c"]["ScaleType"] = Enum.ScaleType.Fit;
+G2L["16c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["16c"]["ImageTransparency"] = 0.2;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["16b"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["16b"]["Image"] = [[rbxassetid://106480654112988]];
-G2L["16b"]["Size"] = UDim2.new(0.558, 0, 0.558, 0);
-G2L["16b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["16b"]["BackgroundTransparency"] = 1;
-G2L["16b"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+G2L["16c"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["16c"]["Image"] = [[rbxassetid://106480654112988]];
+G2L["16c"]["Size"] = UDim2.new(0.558, 0, 0.558, 0);
+G2L["16c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["16c"]["BackgroundTransparency"] = 1;
+G2L["16c"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame.UIGradient
-G2L["16c"] = Instance.new("UIGradient", G2L["166"]);
-G2L["16c"]["Rotation"] = 60;
-G2L["16c"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
+G2L["16d"] = Instance.new("UIGradient", G2L["167"]);
+G2L["16d"]["Rotation"] = 60;
+G2L["16d"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(37, 177, 212)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(57, 94, 219))};
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Frame.UIAspectRatioConstraint
-G2L["16d"] = Instance.new("UIAspectRatioConstraint", G2L["166"]);
-G2L["16d"]["AspectRatio"] = 0.99504;
+G2L["16e"] = Instance.new("UIAspectRatioConstraint", G2L["167"]);
+G2L["16e"]["AspectRatio"] = 0.99504;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.ImageLabel
-G2L["16e"] = Instance.new("ImageLabel", G2L["163"]);
-G2L["16e"]["BorderSizePixel"] = 0;
-G2L["16e"]["ScaleType"] = Enum.ScaleType.Fit;
-G2L["16e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["16e"]["ImageTransparency"] = 0.8;
+G2L["16f"] = Instance.new("ImageLabel", G2L["164"]);
+G2L["16f"]["BorderSizePixel"] = 0;
+G2L["16f"]["ScaleType"] = Enum.ScaleType.Fit;
+G2L["16f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["16f"]["ImageTransparency"] = 0.8;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["16e"]["Image"] = [[rbxassetid://73617481494303]];
-G2L["16e"]["Size"] = UDim2.new(0.21679, 0, 0.6771, 0);
-G2L["16e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["16e"]["BackgroundTransparency"] = 1;
-G2L["16e"]["Position"] = UDim2.new(0.78321, 0, 0.16002, 0);
+G2L["16f"]["Image"] = [[rbxassetid://73617481494303]];
+G2L["16f"]["Size"] = UDim2.new(0.21679, 0, 0.6771, 0);
+G2L["16f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["16f"]["BackgroundTransparency"] = 1;
+G2L["16f"]["Position"] = UDim2.new(0.78321, 0, 0.16002, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.Spacing
-G2L["16f"] = Instance.new("Frame", G2L["163"]);
-G2L["16f"]["BorderSizePixel"] = 0;
-G2L["16f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["16f"]["Size"] = UDim2.new(1, 0, 0.33717, 0);
-G2L["16f"]["Position"] = UDim2.new(0, 0, 1, 0);
-G2L["16f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["16f"]["Name"] = [[Spacing]];
-G2L["16f"]["BackgroundTransparency"] = 1;
+G2L["170"] = Instance.new("Frame", G2L["164"]);
+G2L["170"]["BorderSizePixel"] = 0;
+G2L["170"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["170"]["Size"] = UDim2.new(1, 0, 0.33717, 0);
+G2L["170"]["Position"] = UDim2.new(0, 0, 1, 0);
+G2L["170"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["170"]["Name"] = [[Spacing]];
+G2L["170"]["BackgroundTransparency"] = 1;
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.JoinDiscord.UIStroke
-G2L["170"] = Instance.new("UIStroke", G2L["163"]);
-G2L["170"]["Color"] = Color3.fromRGB(30, 45, 67);
+G2L["171"] = Instance.new("UIStroke", G2L["164"]);
+G2L["171"]["Color"] = Color3.fromRGB(30, 45, 67);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Frame.TextLabel
-G2L["171"] = Instance.new("TextLabel", G2L["148"]);
-G2L["171"]["TextWrapped"] = true;
-G2L["171"]["BorderSizePixel"] = 0;
-G2L["171"]["TextSize"] = 22;
-G2L["171"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["171"]["TextScaled"] = true;
-G2L["171"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["171"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Italic);
-G2L["171"]["TextColor3"] = Color3.fromRGB(79, 90, 99);
-G2L["171"]["BackgroundTransparency"] = 1;
-G2L["171"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["171"]["Size"] = UDim2.new(0.9514, 0, 0.24453, 0);
-G2L["171"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["171"]["Text"] = [[Tired of the key system? Considering purchasing  Enzo Premium to access Enzo without key system.]];
-G2L["171"]["Position"] = UDim2.new(0.02886, 0, 0.59323, 0);
+G2L["172"] = Instance.new("TextLabel", G2L["149"]);
+G2L["172"]["TextWrapped"] = true;
+G2L["172"]["BorderSizePixel"] = 0;
+G2L["172"]["TextSize"] = 22;
+G2L["172"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["172"]["TextScaled"] = true;
+G2L["172"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["172"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Italic);
+G2L["172"]["TextColor3"] = Color3.fromRGB(79, 90, 99);
+G2L["172"]["BackgroundTransparency"] = 1;
+G2L["172"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["172"]["Size"] = UDim2.new(0.9514, 0, 0.24453, 0);
+G2L["172"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["172"]["Text"] = [[Tired of the key system? Considering purchasing  Enzo Premium to access Enzo without key system.]];
+G2L["172"]["Position"] = UDim2.new(0.02886, 0, 0.59323, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton
-G2L["172"] = Instance.new("ImageButton", G2L["145"]);
-G2L["172"]["BorderSizePixel"] = 0;
-G2L["172"]["ImageTransparency"] = 1;
-G2L["172"]["BackgroundTransparency"] = 1;
+G2L["173"] = Instance.new("ImageButton", G2L["145"]);
+G2L["173"]["BorderSizePixel"] = 0;
+G2L["173"]["ImageTransparency"] = 1;
+G2L["173"]["BackgroundTransparency"] = 1;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["172"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["172"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
-G2L["172"]["Image"] = [[rbxassetid://83688012004614]];
-G2L["172"]["Size"] = UDim2.new(0.89144, 0, 0.13888, 0);
-G2L["172"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["172"]["Name"] = [[HeaderButton]];
-G2L["172"]["Position"] = UDim2.new(0.05428, 0, 0.02989, 0);
+G2L["173"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["173"]["ImageColor3"] = Color3.fromRGB(33, 42, 67);
+G2L["173"]["Image"] = [[rbxassetid://83688012004614]];
+G2L["173"]["Size"] = UDim2.new(0.89144, 0, 0.13888, 0);
+G2L["173"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["173"]["Name"] = [[HeaderButton]];
+G2L["173"]["Position"] = UDim2.new(0.05428, 0, 0.02989, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton.UICorner
-G2L["173"] = Instance.new("UICorner", G2L["172"]);
-G2L["173"]["CornerRadius"] = UDim.new(0.15, 0);
+G2L["174"] = Instance.new("UICorner", G2L["173"]);
+G2L["174"]["CornerRadius"] = UDim.new(0.15, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton.UIStroke
-G2L["174"] = Instance.new("UIStroke", G2L["172"]);
-G2L["174"]["Enabled"] = false;
-G2L["174"]["Color"] = Color3.fromRGB(30, 45, 67);
+G2L["175"] = Instance.new("UIStroke", G2L["173"]);
+G2L["175"]["Enabled"] = false;
+G2L["175"]["Color"] = Color3.fromRGB(30, 45, 67);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton.TextLabel
-G2L["175"] = Instance.new("TextLabel", G2L["172"]);
-G2L["175"]["TextWrapped"] = true;
-G2L["175"]["BorderSizePixel"] = 0;
-G2L["175"]["TextSize"] = 22;
-G2L["175"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["175"]["TextScaled"] = true;
-G2L["175"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["175"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["175"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["175"]["BackgroundTransparency"] = 1;
-G2L["175"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["175"]["Size"] = UDim2.new(0.52919, 0, 0.431, 0);
-G2L["175"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["175"]["Text"] = [[ENZO | Key System]];
-G2L["175"]["Position"] = UDim2.new(0.328, 0, 0.5, 0);
+G2L["176"] = Instance.new("TextLabel", G2L["173"]);
+G2L["176"]["TextWrapped"] = true;
+G2L["176"]["BorderSizePixel"] = 0;
+G2L["176"]["TextSize"] = 22;
+G2L["176"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["176"]["TextScaled"] = true;
+G2L["176"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["176"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["176"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["176"]["BackgroundTransparency"] = 1;
+G2L["176"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["176"]["Size"] = UDim2.new(0.52919, 0, 0.431, 0);
+G2L["176"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["176"]["Text"] = [[ENZO | Key System]];
+G2L["176"]["Position"] = UDim2.new(0.328, 0, 0.5, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton.ImageLabel
-G2L["176"] = Instance.new("ImageLabel", G2L["172"]);
-G2L["176"]["BorderSizePixel"] = 0;
-G2L["176"]["ScaleType"] = Enum.ScaleType.Fit;
-G2L["176"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["176"]["ImageTransparency"] = 0.2;
+G2L["177"] = Instance.new("ImageLabel", G2L["173"]);
+G2L["177"]["BorderSizePixel"] = 0;
+G2L["177"]["ScaleType"] = Enum.ScaleType.Fit;
+G2L["177"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["177"]["ImageTransparency"] = 0.2;
 -- [ERROR] cannot convert ImageContent, please report to "https://github.com/uniquadev/GuiToLuaConverter/issues"
-G2L["176"]["AnchorPoint"] = Vector2.new(0, 0.5);
-G2L["176"]["Image"] = [[rbxassetid://116048007349607]];
-G2L["176"]["Size"] = UDim2.new(0.17019, 0, 0.6133, 0);
-G2L["176"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["176"]["BackgroundTransparency"] = 1;
-G2L["176"]["Position"] = UDim2.new(0.07748, 0, 0.5, 0);
+G2L["177"]["AnchorPoint"] = Vector2.new(0, 0.5);
+G2L["177"]["Image"] = [[rbxassetid://116048007349607]];
+G2L["177"]["Size"] = UDim2.new(0.17019, 0, 0.6133, 0);
+G2L["177"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["177"]["BackgroundTransparency"] = 1;
+G2L["177"]["Position"] = UDim2.new(0.07748, 0, 0.5, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton.ImageLabel.UICorner
-G2L["177"] = Instance.new("UICorner", G2L["176"]);
-G2L["177"]["CornerRadius"] = UDim.new(0.3, 0);
+G2L["178"] = Instance.new("UICorner", G2L["177"]);
+G2L["178"]["CornerRadius"] = UDim.new(0.3, 0);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton.ImageLabel.UIStroke
-G2L["178"] = Instance.new("UIStroke", G2L["176"]);
-G2L["178"]["Color"] = Color3.fromRGB(39, 33, 67);
+G2L["179"] = Instance.new("UIStroke", G2L["177"]);
+G2L["179"]["Color"] = Color3.fromRGB(39, 33, 67);
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.HeaderButton.ImageLabel.UIAspectRatioConstraint
-G2L["179"] = Instance.new("UIAspectRatioConstraint", G2L["176"]);
+G2L["17a"] = Instance.new("UIAspectRatioConstraint", G2L["177"]);
 
 
 
 -- StarterGui.! | ENZO.Frames.KeySystem.Border
-G2L["17a"] = Instance.new("Frame", G2L["145"]);
-G2L["17a"]["BorderSizePixel"] = 0;
-G2L["17a"]["BackgroundColor3"] = Color3.fromRGB(30, 45, 67);
-G2L["17a"]["Size"] = UDim2.new(1, 0, 0, 1);
-G2L["17a"]["Position"] = UDim2.new(0, 0, 0.19381, 0);
-G2L["17a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["17a"]["Name"] = [[Border]];
+G2L["17b"] = Instance.new("Frame", G2L["145"]);
+G2L["17b"]["BorderSizePixel"] = 0;
+G2L["17b"]["BackgroundColor3"] = Color3.fromRGB(30, 45, 67);
+G2L["17b"]["Size"] = UDim2.new(1, 0, 0, 1);
+G2L["17b"]["Position"] = UDim2.new(0, 0, 0.19381, 0);
+G2L["17b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["17b"]["Name"] = [[Border]];
 
 
+-- Require G2L wrapper
+local G2L_REQUIRE = require;
+local G2L_MODULES = {};
+local function require(Module:ModuleScript)
+	local ModuleState = G2L_MODULES[Module];
+	if ModuleState then
+		if not ModuleState.Required then
+			ModuleState.Required = true;
+			ModuleState.Value = ModuleState.Closure();
+		end
+		return ModuleState.Value;
+	end;
+	return G2L_REQUIRE(Module);
+end
+
+G2L_MODULES[G2L["147"]] = {
+	Closure = function()
+		local script = G2L["147"];local VirutalFS = {}
+		-- config
+		ROOTFS_NAME = "workspace"
+		ROOTFS_PARENT = game.ReplicatedStorage
+
+		VERBOSE_MODE = game:GetService("RunService"):IsStudio()
+
+
+		local ROOTFS_FOLDER
+
+		if ROOTFS_PARENT:FindFirstChild(ROOTFS_NAME) then
+			ROOTFS_FOLDER = ROOTFS_PARENT[ROOTFS_NAME]
+		else
+			if not VERBOSE_MODE then
+				warn("Rootfs folder not found, creating one...")
+			end
+
+			ROOTFS_FOLDER = Instance.new("Folder", ROOTFS_PARENT)
+			ROOTFS_FOLDER.Name = ROOTFS_NAME
+		end
+
+		function getInstanceFromPath(path)
+			if path == "" then
+				return ROOTFS_FOLDER
+			end
+
+			local parts = string.split(path, "/")
+			local current = ROOTFS_FOLDER
+
+			for i = 1, #parts do
+				current = current:FindFirstChild(parts[i])
+				if not current then
+					return nil
+				end
+			end
+
+			return current
+		end
+
+		function VirutalFS.makefolder(path)
+			local parts = string.split(path, "/")
+			local current = ROOTFS_FOLDER
+
+			for i = 1, #parts do
+				local folder = current:FindFirstChild(parts[i])
+				if not folder then
+					folder = Instance.new("Folder")
+					folder.Name = parts[i]
+					folder.Parent = current
+
+					if VERBOSE_MODE then
+						print("Created folder at: "..path)
+					end
+				elseif not folder:IsA("Folder") then
+					error("Path exists but is not a folder.")
+				end
+				current = folder
+			end
+		end
+
+		function VirutalFS.writefile(path, content)
+			local parentFolderPath = path:match("(.+)/[^/]+$") or ""
+			local fileName = path:match("[^/]+$")
+
+			local folder = getInstanceFromPath(parentFolderPath)
+
+			if folder then
+				local file = folder:FindFirstChild(fileName) or Instance.new("StringValue")
+				file.Name = fileName
+				file.Value = content
+				file.Parent = folder
+
+				if VERBOSE_MODE then
+					print("File written at: "..path)
+				end
+			else
+				error("Invalid path.")
+			end
+		end
+
+		function VirutalFS.readfile(path)
+			local file = getInstanceFromPath(path)
+			if file and file:IsA("StringValue") then
+				if VERBOSE_MODE then
+					print("File read at: "..path)
+				end
+				return file.Value
+			else
+				error("File not found.")
+			end
+		end
+
+		function VirutalFS.loadfile(path)
+			local file = getInstanceFromPath(path)
+			if file and file:IsA("StringValue") then
+				if VERBOSE_MODE then
+					print("Load file at: "..path)
+				end
+				return loadstring(file.Value)
+			else
+				error("File not found.")
+			end
+		end
+
+		function VirutalFS.dofile(path)
+			local file = getInstanceFromPath(path)
+			if file and file:IsA("StringValue") then
+				if VERBOSE_MODE then
+					print("Executing file: "..path)
+				end
+				return loadstring(file.Value)()
+			else
+				error("File not found.")
+			end
+		end
+
+		function VirutalFS.appendfile(path, content)
+			local existingContent = ""
+			local file = getInstanceFromPath(path)
+
+			if file and file:IsA("StringValue") then
+				existingContent = file.Value
+				if VERBOSE_MODE then
+					print("Append file: "..path)
+				end
+			else
+				VirutalFS.makefolder(path:match("(.+)/[^/]+$") or "")
+				VirutalFS.writefile(path, content)
+				return
+			end
+
+			local newContent = existingContent .. content
+			VirutalFS.writefile(path, newContent)
+		end
+
+		function VirutalFS.listfiles(folder)
+			local folderInstance = getInstanceFromPath(folder)
+			if folderInstance and folderInstance:IsA("Folder") then
+				local files = {}
+				for _, child in pairs(folderInstance:GetChildren()) do
+					table.insert(files, folder.."/"..child.Name)
+				end
+				if VERBOSE_MODE then
+					print("Listed files at: "..folder)
+				end
+				return files
+			else
+				error("Folder not found.")
+			end
+		end
+
+		function VirutalFS.isfolder(path)
+			local folder = getInstanceFromPath(path)
+			if VERBOSE_MODE then
+				print("Checking "..path.." exists as a folder: "..tostring(folder and folder:IsA("Folder") or false))
+			end
+			return folder and folder:IsA("Folder") or false
+		end
+
+		function VirutalFS.isfile(path)
+			local file = getInstanceFromPath(path)
+			if VERBOSE_MODE then
+				print("Checking "..path.." exists as a file: "..tostring(file and file:IsA("StringValue") or false))
+			end
+			return file and file:IsA("StringValue") or false
+		end
+
+		function VirutalFS.delfile(path)
+			local file = getInstanceFromPath(path)
+			if file and file:IsA("StringValue") then
+				if VERBOSE_MODE then
+					print("Deleted file: "..path)
+				end
+
+				file:Destroy()
+			else
+				error("File not found.")
+			end
+		end
+
+		function VirutalFS.delfolder(path)
+			local folder = getInstanceFromPath(path)
+			if folder and folder:IsA("Folder") then
+				folder:Destroy()
+				if VERBOSE_MODE then
+					print("Deleted folder: "..path)
+				end
+			else
+				error("Folder not found.")
+			end
+		end
+
+
+		return VirutalFS
+	end;
+};
 -- StarterGui.! | ENZO.Toggle.LocalScript
 local function C_3()
 	local script = G2L["3"];
@@ -4509,11 +4728,20 @@ local function C_118()
 
 end;
 task.spawn(C_118);
--- StarterGui.! | ENZO.Frames.KeySystem.KeySysHand;er
+-- StarterGui.! | ENZO.Frames.KeySystem.KeySysHandler
 local function C_146()
 	local script = G2L["146"];
+	-- inject virutal env cuz why not
+	if game:GetService("RunService"):IsStudio() then
+		if script:FindFirstChild("VirtualFS") then
+			for namefunc, func in require(script.VirtualFS) do
+				getfenv()[namefunc] = func
+				--print("Inserting "..namefunc)
+			end
+		end
+	end
+
 	local elements = script.Parent.Frame
-	--local floatIcon = script.Parent.Parent.Toggle
 	local keySysFrame = script.Parent
 	local mainFrame = script.Parent.Parent.Frame
 
@@ -4522,14 +4750,66 @@ local function C_146()
 	local joinDiscord = elements.JoinDiscord
 	local continueBtn  = elements.Continue
 
+	local savedKeyFileName = "savedKey.txt"
+
+	-- luarmor
+	local api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
+	api.script_id = "5e98496b02a8a38fca58521631b95a07"
+
+	local function getFriendlyCode(code)
+		local codes = {
+			KEY_VALID = "KEY VALID",
+			KEY_EXPIRED = "KEY EXPIRED",
+			KEY_INVALID = "KEY INVALID",
+			KEY_BANNED = "KEY BANNED",
+			KEY_HWID_LOCKED = "KEY MISMATCH HWID",
+		}
+		return codes[code] or "KEY INVALID"
+	end
+
 	local function getKeyInput()
-		return inputKey.TextBox.Text
+		return inputKey.TextBox.Text:gsub(" ","")
 	end
 
 	local function checkKey(keyInput)
-		if keyInput == "testKeyLol" then
+		-- placeholder for now
+		if keyInput == "testK3y_Enzo" then
 			return true
-		else return false end
+		else
+			local status = api.check_key(keyInput);
+			if (status.code == "KEY_VALID") then
+				return true, status.code
+			else
+				return false, status.code
+			end
+		end
+
+	end
+
+	local function saveKey(keyInput)
+		writefile(savedKeyFileName, keyInput)
+	end
+
+	local function readSavedKey(keyInput)
+		if isfile(savedKeyFileName) then
+			return readfile(savedKeyFileName)
+		else
+			return false
+		end
+	end
+
+	local function delSavedKey(keyInput)
+		if isfile(savedKeyFileName) then
+			delfile(savedKeyFileName)
+		end
+	end
+
+	local function checkSavedKey()
+		local key = readSavedKey()
+		local result, code = checkKey(key)
+		if key and result then
+			return true,code
+		else return false, code end
 	end
 
 	local function unlockMain()
@@ -4541,6 +4821,23 @@ local function C_146()
 		game:GetService("TweenService"):Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, 0,0.5, 0)}):Play()
 	end
 
+	-- auto check key
+	task.spawn(function()
+		if readSavedKey() then
+			continueBtn.TextLabel.Text = "CHECKING SAVED KEY..."
+			local result,code = checkSavedKey()
+			if result then
+				continueBtn.TextLabel.Text = "WELCOME"
+				task.wait(0.75)
+				unlockMain()
+			else
+				continueBtn.TextLabel.Text = "SAVED "..getFriendlyCode(code)
+				delSavedKey()
+			end
+		end
+	end)
+
+
 	local old = getKeyBtn.TextLabel.Text
 	getKeyBtn.MouseButton1Click:Connect(function()
 		(setclipboard or function() end)("https://ads.luarmor.net/get_key?for=-KrDoeLOxtTuh")
@@ -4551,23 +4848,34 @@ local function C_146()
 		end)
 	end)
 
+
+
 	local old = joinDiscord.TextLabel.Text
 	joinDiscord.MouseButton1Click:Connect(function()
 		(setclipboard or function() end)("https://discord.gg/enzostudios")
 		task.spawn(function()
-			joinDiscord.TextLabel.Text = "URL Copied!"
+			joinDiscord.TextLabel.Text = "Discord Link Copied!"
 			task.wait(2)
 			joinDiscord.TextLabel.Text = old
 		end)
 	end)
 
-
+	local old = continueBtn.TextLabel.Text
 	continueBtn.MouseButton1Click:Connect(function()
-		if checkKey(getKeyInput()) then
-			print('yes')
+		-- check key
+		local key = getKeyInput()
+		continueBtn.TextLabel.Text = "CHECKING KEY..."
+
+		local result, code = checkKey(key)
+		if result then
+			saveKey(key)
+			continueBtn.TextLabel.Text = "WELCOME"
+			task.wait(0.75)
 			unlockMain()
 		else
-			print('no', getKeyInput())
+			continueBtn.TextLabel.Text = getFriendlyCode(code)
+			task.wait(3)
+			continueBtn.TextLabel.Text = old
 		end
 	end)
 end;
