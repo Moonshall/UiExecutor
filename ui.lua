@@ -4817,80 +4817,26 @@ local function C_146()
 			return true, "KEY_VALID"
 		end
 		
-		-- Luarmor whitelist validation using abc.cpp method
-		local success, result = pcall(function()
-			-- Step 1: Get sync data
-			local syncUrl = "https://sdkapi-public.luarmor.net/sync"
-			local syncResponse = game:HttpGet(syncUrl)
-			local syncData = HttpService:JSONDecode(syncResponse)
-			
-			if not syncData.st or not syncData.nodes or #syncData.nodes == 0 then
-				return {code = "KEY_INVALID"}
-			end
-			
-			local serverTime = syncData.st
-			local randomNode = syncData.nodes[math.random(1, #syncData.nodes)]
-			
-			print("[ENZO] Using node:", randomNode)
-			
-			-- Step 2: Generate client data
-			local clientNonce = randomString(16)
-			local clientHwid = getHWID()
-			
-			-- Step 3: Generate external signature (from abc.cpp logic)
-			local extSignatureStr = clientNonce .. secret_n1 .. keyInput .. secret_n2 .. serverTime .. secret_n3 .. clientHwid
-			local extSignature = sha1(extSignatureStr)
-			
-			print("[ENZO] External signature generated")
-			
-			-- Step 4: Make request with custom headers
-			local checkUrl = randomNode .. "/external_check_key?by=" .. app_name .. "&key=" .. keyInput
-			
-			local headers = {
-				["Content-Type"] = "application/json",
-				["clienttime"] = serverTime,
-				["externalsignature"] = extSignature,
-				["clientnonce"] = clientNonce,
-				["clienthwid"] = clientHwid,
-				["executor-fingerprint"] = clientHwid
-			}
-			
-			local response = request({
-				Url = checkUrl,
-				Method = "GET",
-				Headers = headers
-			})
-			
-			if not response or not response.Body then
-				return {code = "KEY_INVALID"}
-			end
-			
-			local responseData = HttpService:JSONDecode(response.Body)
-			
-			-- Step 5: Verify response signature (from abc.cpp logic)
-			if responseData.code == "KEY_VALID" then
-				local serverSignature = sha1(clientNonce .. secret_n3 .. responseData.code)
-				if responseData.signature == serverSignature then
-					print("[ENZO] Signature verified!")
-					return responseData
-				else
-					warn("[ENZO] Signature mismatch!")
-					return {code = "KEY_INVALID"}
-				end
-			end
-			
-			return responseData
+		-- Check if Luarmor is loaded
+		if not luarmorLoaded or not api then
+			warn("[ENZO] Luarmor not loaded, cannot validate key")
+			return false, "KEY_INVALID"
+		end
+		
+		-- Validate with Luarmor
+		local success, status = pcall(function()
+			return api.check_key(keyInput)
 		end)
 		
-		if success and result then
-			print("[ENZO] Key check result:", result.code)
-			if result.code == "KEY_VALID" then
-				return true, result.code
+		if success and status then
+			print("[ENZO] Key check result:", status.code)
+			if status.code == "KEY_VALID" then
+				return true, status.code
 			else
-				return false, result.code
+				return false, status.code
 			end
 		else
-			warn("[ENZO] Error checking key:", result)
+			warn("[ENZO] Error checking key:", status)
 			return false, "KEY_INVALID"
 		end
 	end
