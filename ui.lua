@@ -4757,38 +4757,21 @@ local function C_146()
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
 
-	-- luarmor whitelist implementation from abc.cpp
-	local HttpService = game:GetService("HttpService")
-	local secret_n1 = "NiNHdQTGeOFOLSKXCCkbthdcEU"
-	local secret_n2 = "ggedwuyKTbcLUnVChZZpGyhcNT"
-	local secret_n3 = "quKSZXXJFVcIhiSLynGQVYOtUc"
-	local app_name = "enzo"
+	-- luarmor
+	local api = nil
+	local luarmorLoaded = false
 	
-	local function sha1(str)
-		local success, result = pcall(function()
-			return syn and syn.crypt.hash or crypt.hash("sha1", str)
-		end)
-		if success then return result end
-		
-		-- Fallback basic hash (not real SHA1 but untuk testing)
-		return string.format("%040x", #str * 12345 + str:byte(1,1) * 67890)
-	end
+	local success, result = pcall(function()
+		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
+	end)
 	
-	local function randomString(length)
-		local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-		local result = ""
-		for i = 1, length do
-			local rand = math.random(1, #chars)
-			result = result .. chars:sub(rand, rand)
-		end
-		return result
-	end
-	
-	local function getHWID()
-		local success, hwid = pcall(function()
-			return gethwid and gethwid() or game:GetService("RbxAnalyticsService"):GetClientId()
-		end)
-		return success and hwid or "default-hwid-" .. randomString(8)
+	if success and result then
+		api = result
+		api.script_id = "5e98496b02a8a38fca58521631b95a07"
+		luarmorLoaded = true
+		print("[ENZO] Luarmor API loaded successfully")
+	else
+		warn("[ENZO] Failed to load Luarmor API:", result)
 	end
 
 	local function getFriendlyCode(code)
@@ -4798,7 +4781,6 @@ local function C_146()
 			KEY_INVALID = "KEY INVALID",
 			KEY_BANNED = "KEY BANNED",
 			KEY_HWID_LOCKED = "KEY MISMATCH HWID",
-			INVALID_EXECUTOR = "UNSUPPORTED EXECUTOR",
 		}
 		return codes[code] or "KEY INVALID"
 	end
