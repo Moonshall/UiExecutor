@@ -4757,21 +4757,38 @@ local function C_146()
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
 
-	-- luarmor
-	local api = nil
-	local luarmorLoaded = false
+	-- luarmor whitelist implementation from abc.cpp
+	local HttpService = game:GetService("HttpService")
+	local secret_n1 = "NiNHdQTGeOFOLSKXCCkbthdcEU"
+	local secret_n2 = "ggedwuyKTbcLUnVChZZpGyhcNT"
+	local secret_n3 = "quKSZXXJFVcIhiSLynGQVYOtUc"
+	local app_name = "enzo"
 	
-	local success, result = pcall(function()
-		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
-	end)
+	local function sha1(str)
+		local success, result = pcall(function()
+			return syn and syn.crypt.hash or crypt.hash("sha1", str)
+		end)
+		if success then return result end
+		
+		-- Fallback basic hash (not real SHA1 but untuk testing)
+		return string.format("%040x", #str * 12345 + str:byte(1,1) * 67890)
+	end
 	
-	if success and result then
-		api = result
-		api.script_id = "5e98496b02a8a38fca58521631b95a07"
-		luarmorLoaded = true
-		print("[ENZO] Luarmor API loaded successfully")
-	else
-		warn("[ENZO] Failed to load Luarmor API:", result)
+	local function randomString(length)
+		local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+		local result = ""
+		for i = 1, length do
+			local rand = math.random(1, #chars)
+			result = result .. chars:sub(rand, rand)
+		end
+		return result
+	end
+	
+	local function getHWID()
+		local success, hwid = pcall(function()
+			return gethwid and gethwid() or game:GetService("RbxAnalyticsService"):GetClientId()
+		end)
+		return success and hwid or "default-hwid-" .. randomString(8)
 	end
 
 	local function getFriendlyCode(code)
@@ -4781,6 +4798,7 @@ local function C_146()
 			KEY_INVALID = "KEY INVALID",
 			KEY_BANNED = "KEY BANNED",
 			KEY_HWID_LOCKED = "KEY MISMATCH HWID",
+			INVALID_EXECUTOR = "UNSUPPORTED EXECUTOR",
 		}
 		return codes[code] or "KEY INVALID"
 	end
@@ -4799,26 +4817,80 @@ local function C_146()
 			return true, "KEY_VALID"
 		end
 		
-		-- Check if Luarmor is loaded
-		if not luarmorLoaded or not api then
-			warn("[ENZO] Luarmor not loaded, cannot validate key")
-			return false, "KEY_INVALID"
-		end
-		
-		-- Validate with Luarmor
-		local success, status = pcall(function()
-			return api.check_key(keyInput)
+		-- Luarmor whitelist validation using abc.cpp method
+		local success, result = pcall(function()
+			-- Step 1: Get sync data
+			local syncUrl = "https://sdkapi-public.luarmor.net/sync"
+			local syncResponse = game:HttpGet(syncUrl)
+			local syncData = HttpService:JSONDecode(syncResponse)
+			
+			if not syncData.st or not syncData.nodes or #syncData.nodes == 0 then
+				return {code = "KEY_INVALID"}
+			end
+			
+			local serverTime = syncData.st
+			local randomNode = syncData.nodes[math.random(1, #syncData.nodes)]
+			
+			print("[ENZO] Using node:", randomNode)
+			
+			-- Step 2: Generate client data
+			local clientNonce = randomString(16)
+			local clientHwid = getHWID()
+			
+			-- Step 3: Generate external signature (from abc.cpp logic)
+			local extSignatureStr = clientNonce .. secret_n1 .. keyInput .. secret_n2 .. serverTime .. secret_n3 .. clientHwid
+			local extSignature = sha1(extSignatureStr)
+			
+			print("[ENZO] External signature generated")
+			
+			-- Step 4: Make request with custom headers
+			local checkUrl = randomNode .. "/external_check_key?by=" .. app_name .. "&key=" .. keyInput
+			
+			local headers = {
+				["Content-Type"] = "application/json",
+				["clienttime"] = serverTime,
+				["externalsignature"] = extSignature,
+				["clientnonce"] = clientNonce,
+				["clienthwid"] = clientHwid,
+				["executor-fingerprint"] = clientHwid
+			}
+			
+			local response = request({
+				Url = checkUrl,
+				Method = "GET",
+				Headers = headers
+			})
+			
+			if not response or not response.Body then
+				return {code = "KEY_INVALID"}
+			end
+			
+			local responseData = HttpService:JSONDecode(response.Body)
+			
+			-- Step 5: Verify response signature (from abc.cpp logic)
+			if responseData.code == "KEY_VALID" then
+				local serverSignature = sha1(clientNonce .. secret_n3 .. responseData.code)
+				if responseData.signature == serverSignature then
+					print("[ENZO] Signature verified!")
+					return responseData
+				else
+					warn("[ENZO] Signature mismatch!")
+					return {code = "KEY_INVALID"}
+				end
+			end
+			
+			return responseData
 		end)
 		
-		if success and status then
-			print("[ENZO] Key check result:", status.code)
-			if status.code == "KEY_VALID" then
-				return true, status.code
+		if success and result then
+			print("[ENZO] Key check result:", result.code)
+			if result.code == "KEY_VALID" then
+				return true, result.code
 			else
-				return false, status.code
+				return false, result.code
 			end
 		else
-			warn("[ENZO] Error checking key:", status)
+			warn("[ENZO] Error checking key:", result)
 			return false, "KEY_INVALID"
 		end
 	end
