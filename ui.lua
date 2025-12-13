@@ -4757,43 +4757,21 @@ local function C_146()
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
 
-	local HttpService = game:GetService("HttpService")
-	local _n1 = "NiNHdQTGeOFOLSKXCCkbthdcEU"
-	local _n2 = "ggedwuyKTbcLUnVChZZpGyhcNT"  
-	local _n3 = "quKSZXXJFVcIhiSLynGQVYOtUc"
-	local _app = "enzo"
+	-- luarmor
+	local api = nil
+	local luarmorLoaded = false
 	
-	local function _rstr(len)
-		local c = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-		local s = ""
-		for i = 1, len do
-			local r = math.random(1, #c)
-			s = s .. c:sub(r, r)
-		end
-		return s
-	end
+	local success, result = pcall(function()
+		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
+	end)
 	
-	local function _hash(data)
-		local h = nil
-		if syn and syn.crypt and syn.crypt.hash then
-			h = syn.crypt.hash(data, "sha1")
-		elseif crypt and crypt.hash then
-			h = crypt.hash(data, "sha1")
-		elseif sha1 then
-			h = sha1(data)
-		end
-		if h then
-			h = h:lower():gsub("[^a-f0-9]", "")
-		end
-		return h
-	end
-	
-	local function _hwid()
-		if gethwid then return gethwid() end
-		if getexecutorname then
-			return tostring(game.PlaceId) .. "-" .. tostring(game.JobId):sub(1,8) .. "-" .. _rstr(6)
-		end
-		return tostring(game:GetService("RbxAnalyticsService"):GetClientId())
+	if success and result then
+		api = result
+		api.script_id = "5e98496b02a8a38fca58521631b95a07"
+		luarmorLoaded = true
+		print("[ENZO] Luarmor API loaded successfully")
+	else
+		warn("[ENZO] Failed to load Luarmor API:", result)
 	end
 
 	local function getFriendlyCode(code)
@@ -4803,6 +4781,7 @@ local function C_146()
 			KEY_INVALID = "KEY INVALID",
 			KEY_BANNED = "KEY BANNED",
 			KEY_HWID_LOCKED = "KEY MISMATCH HWID",
+			KEY_INCORRECT = "KEY WRONG/DELETED",
 		}
 		return codes[code] or "KEY INVALID"
 	end
@@ -4813,93 +4792,68 @@ local function C_146()
 
 	local function checkKey(keyInput)
 		if not keyInput or keyInput == "" then
-			return false, "KEY_INVALID"
+			return false, "KEY_INVALID", nil
 		end
 		
+		-- Testkey fallback
 		if keyInput == "testK3y_Enzo" then
-			return true, "KEY_VALID"
+			return true, "KEY_VALID", nil
 		end
 		
-		local ok, res = pcall(function()
-			local syncRaw = game:HttpGet("https://sdkapi-public.luarmor.net/sync")
-			local sync = HttpService:JSONDecode(syncRaw)
-			if not sync.st or not sync.nodes or #sync.nodes == 0 then 
-				warn("Sync failed") 
-				return {code = "KEY_INVALID"} 
-			end
-			
-			local st = tostring(sync.st)
-			local node = sync.nodes[math.random(#sync.nodes)]
-			local nonce = _rstr(16)
-			local hwid = _hwid()
-			
-			warn("Node: " .. node)
-			warn("ST: " .. st)
-			warn("Nonce: " .. nonce)
-			warn("HWID: " .. hwid)
-			
-			local sigData = nonce .. _n1 .. keyInput .. _n2 .. st .. _n3 .. hwid
-			warn("SigData: " .. sigData)
-			local sig = _hash(sigData)
-			
-			if not sig then 
-				warn("Hash failed - no sha1 support")
-				return {code = "KEY_INVALID"} 
-			end
-			
-			warn("Sig: " .. sig)
-			
-			if node:sub(-1) == "/" then
-				node = node:sub(1, -2)
-			end
-			
-			local url = node .. "/external_check_key?by=" .. _app .. "&key=" .. keyInput
-			warn("URL: " .. url)
-			
-			local resp = (syn and syn.request or http and http.request or request or http_request)({
-				Url = url,
-				Method = "GET",
-				Headers = {
-					["Content-Type"] = "application/json",
-					["clienttime"] = st,
-					["externalsignature"] = sig,
-					["clientnonce"] = nonce,
-					["clienthwid"] = hwid,
-					["executor-fingerprint"] = hwid
-				}
-			})
-			
-			if not resp then 
-				warn("No response")
-				return {code = "KEY_INVALID"} 
-			end
-			
-			warn("Response: " .. tostring(resp.Body))
-			
-			if not resp.Body then return {code = "KEY_INVALID"} end
-			local data = HttpService:JSONDecode(resp.Body)
-			
-			warn("Code: " .. tostring(data.code))
-			
-			if data.code == "KEY_VALID" and data.signature then
-				local vsig = _hash(nonce .. _n3 .. data.code)
-				if vsig ~= data.signature then
-					warn("Signature mismatch")
-					return {code = "KEY_INVALID"}
-				end
-			end
-			
-			return data
+		-- Check if Luarmor is loaded
+		if not luarmorLoaded or not api then
+			warn("[ENZO] Luarmor not loaded, cannot validate key")
+			return false, "KEY_INVALID", nil
+		end
+		
+		-- Validate with Luarmor
+		local success, status = pcall(function()
+			return api.check_key(keyInput)
 		end)
 		
-		if not ok then
-			warn("Error: " .. tostring(res))
+		if success and status then
+			print("[ENZO] Key check result:", status.code, status.message)
+			
+			if status.code == "KEY_VALID" then
+				-- Return status data for additional info (auth_expire, total_executions, note)
+				return true, status.code, status.data
+				
+			elseif status.code == "KEY_HWID_LOCKED" then
+				warn("[ENZO] Key linked to a different HWID. Please reset it.")
+				return false, status.code, nil
+				
+			elseif status.code == "KEY_INCORRECT" then
+				warn("[ENZO] Key is wrong or deleted!")
+				return false, status.code, nil
+				
+			else
+				-- Fallback for other codes (blacklisted, key empty/too short, etc.)
+				warn("[ENZO] Key check failed:", status.message, "Code:", status.code)
+				return false, status.code, nil
+			end
+		else
+			warn("[ENZO] Error checking key:", status)
+			return false, "KEY_INVALID", nil
 		end
+	end
+	
+	local function loadMainScript(keyInput)
+		-- Set the script_key global before loading
+		getfenv().script_key = keyInput
+		_G.script_key = keyInput
 		
-		if ok and res and res.code then
-			return res.code == "KEY_VALID", res.code
+		-- Load the script using Luarmor API
+		if luarmorLoaded and api then
+			local loadSuccess, loadErr = pcall(function()
+				api.load_script()
+			end)
+			
+			if not loadSuccess then
+				warn("[ENZO] Failed to load script:", loadErr)
+			else
+				print("[ENZO] Script loaded successfully")
+			end
 		end
-		return false, "KEY_INVALID"
 	end
 
 	local function saveKey(keyInput)
@@ -4922,10 +4876,10 @@ local function C_146()
 
 	local function checkSavedKey()
 		local key = readSavedKey()
-		local result, code = checkKey(key)
+		local result, code, data = checkKey(key)
 		if key and result then
-			return true,code
-		else return false, code end
+			return true, code, data
+		else return false, code, nil end
 	end
 
 	local function unlockMain()
@@ -4946,11 +4900,26 @@ local function C_146()
 	task.spawn(function()
 		if readSavedKey() then
 			continueBtn.TextLabel.Text = "CHECKING SAVED KEY..."
-			local result,code = checkSavedKey()
+			local result, code, data = checkSavedKey()
 			if result then
+				-- Display key info if available
+				if data then
+					local secondsLeft = data.auth_expire and (data.auth_expire - os.time()) or 0
+					local isAdKey = data.note == "Ad Reward"
+					print("[ENZO] Welcome! Seconds left:", secondsLeft)
+					print("[ENZO] Total executions:", data.total_executions or "N/A")
+					print("[ENZO] Is key from ad system?", isAdKey and "YES" or "NO")
+				end
+				
 				continueBtn.TextLabel.Text = "WELCOME"
 				task.wait(0.75)
 				unlockMain()
+				
+				-- Load the main script after unlocking
+				local savedKey = readSavedKey()
+				if savedKey and savedKey ~= "testK3y_Enzo" then
+					loadMainScript(savedKey)
+				end
 			else
 				continueBtn.TextLabel.Text = "SAVED "..getFriendlyCode(code)
 				delSavedKey()
@@ -4987,8 +4956,17 @@ local function C_146()
 		local key = getKeyInput()
 		continueBtn.TextLabel.Text = "CHECKING KEY..."
 
-		local result, code = checkKey(key)
+		local result, code, data = checkKey(key)
 		if result then
+			-- Display key info if available
+			if data then
+				local secondsLeft = data.auth_expire and (data.auth_expire - os.time()) or 0
+				local isAdKey = data.note == "Ad Reward"
+				print("[ENZO] Welcome! Seconds left:", secondsLeft)
+				print("[ENZO] Total executions:", data.total_executions or "N/A")
+				print("[ENZO] Is key from ad system?", isAdKey and "YES" or "NO")
+			end
+			
 			-- Jangan save test key
 			if key ~= "testK3y_Enzo" then
 				saveKey(key)
@@ -4996,6 +4974,11 @@ local function C_146()
 			continueBtn.TextLabel.Text = "WELCOME"
 			task.wait(0.75)
 			unlockMain()
+			
+			-- Load the main script after unlocking
+			if key ~= "testK3y_Enzo" then
+				loadMainScript(key)
+			end
 		else
 			continueBtn.TextLabel.Text = getFriendlyCode(code)
 			task.wait(3)
