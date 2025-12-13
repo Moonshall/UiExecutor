@@ -4757,21 +4757,48 @@ local function C_146()
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
 
-	-- luarmor
-	local api = nil
-	local luarmorLoaded = false
+	local HttpService = game:GetService("HttpService")
+	local _n1 = "NiNHdQTGeOFOLSKXCCkbthdcEU"
+	local _n2 = "ggedwuyKTbcLUnVChZZpGyhcNT"  
+	local _n3 = "quKSZXXJFVcIhiSLynGQVYOtUc"
+	local _app = "enzo"
 	
-	local success, result = pcall(function()
-		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
-	end)
+	local function _rstr(len)
+		local c = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+		local s = ""
+		for i = 1, len do
+			local r = math.random(1, #c)
+			s = s .. c:sub(r, r)
+		end
+		return s
+	end
 	
-	if success and result then
-		api = result
-		api.script_id = "5e98496b02a8a38fca58521631b95a07"
-		luarmorLoaded = true
-		print("[ENZO] Luarmor API loaded successfully")
-	else
-		warn("[ENZO] Failed to load Luarmor API:", result)
+	local function _hash(data)
+		if syn and syn.crypt and syn.crypt.hash then
+			return syn.crypt.hash(data, "sha1")
+		elseif crypt and crypt.hash then
+			return crypt.hash(data, "sha1")
+		elseif sha1 then
+			return sha1(data)
+		elseif request then
+			local r = request({
+				Url = "https://api.hashify.net/hash/sha1/hex?value=" .. HttpService:UrlEncode(data),
+				Method = "GET"
+			})
+			if r and r.Body then
+				local d = HttpService:JSONDecode(r.Body)
+				if d and d.Digest then return d.Digest end
+			end
+		end
+		return nil
+	end
+	
+	local function _hwid()
+		if gethwid then return gethwid() end
+		if getexecutorname then
+			return tostring(game.PlaceId) .. "-" .. tostring(game.JobId):sub(1,8) .. "-" .. _rstr(6)
+		end
+		return tostring(game:GetService("RbxAnalyticsService"):GetClientId())
 	end
 
 	local function getFriendlyCode(code)
@@ -4794,33 +4821,84 @@ local function C_146()
 			return false, "KEY_INVALID"
 		end
 		
-		-- Testkey fallback
 		if keyInput == "testK3y_Enzo" then
 			return true, "KEY_VALID"
 		end
 		
-		-- Check if Luarmor is loaded
-		if not luarmorLoaded or not api then
-			warn("[ENZO] Luarmor not loaded, cannot validate key")
-			return false, "KEY_INVALID"
-		end
-		
-		-- Validate with Luarmor
-		local success, status = pcall(function()
-			return api.check_key(keyInput)
+		local ok, res = pcall(function()
+			local syncRaw = game:HttpGet("https://sdkapi-public.luarmor.net/sync")
+			local sync = HttpService:JSONDecode(syncRaw)
+			if not sync.st or not sync.nodes or #sync.nodes == 0 then 
+				warn("Sync failed") 
+				return {code = "KEY_INVALID"} 
+			end
+			
+			local st = tostring(sync.st)
+			local node = sync.nodes[math.random(#sync.nodes)]
+			local nonce = _rstr(16)
+			local hwid = _hwid()
+			
+			warn("Node: " .. node)
+			warn("ST: " .. st)
+			warn("HWID: " .. hwid)
+			
+			local sigData = nonce .. _n1 .. keyInput .. _n2 .. st .. _n3 .. hwid
+			local sig = _hash(sigData)
+			
+			if not sig then 
+				warn("Hash failed - no sha1 support")
+				return {code = "KEY_INVALID"} 
+			end
+			
+			warn("Sig: " .. sig)
+			
+			local url = node .. "/external_check_key?by=" .. _app .. "&key=" .. keyInput
+			warn("URL: " .. url)
+			
+			local resp = (syn and syn.request or http and http.request or request or http_request)({
+				Url = url,
+				Method = "GET",
+				Headers = {
+					["Content-Type"] = "application/json",
+					["clienttime"] = st,
+					["externalsignature"] = sig,
+					["clientnonce"] = nonce,
+					["clienthwid"] = hwid,
+					["executor-fingerprint"] = hwid
+				}
+			})
+			
+			if not resp then 
+				warn("No response")
+				return {code = "KEY_INVALID"} 
+			end
+			
+			warn("Response: " .. tostring(resp.Body))
+			
+			if not resp.Body then return {code = "KEY_INVALID"} end
+			local data = HttpService:JSONDecode(resp.Body)
+			
+			warn("Code: " .. tostring(data.code))
+			
+			if data.code == "KEY_VALID" and data.signature then
+				local vsig = _hash(nonce .. _n3 .. data.code)
+				if vsig ~= data.signature then
+					warn("Signature mismatch")
+					return {code = "KEY_INVALID"}
+				end
+			end
+			
+			return data
 		end)
 		
-		if success and status then
-			print("[ENZO] Key check result:", status.code)
-			if status.code == "KEY_VALID" then
-				return true, status.code
-			else
-				return false, status.code
-			end
-		else
-			warn("[ENZO] Error checking key:", status)
-			return false, "KEY_INVALID"
+		if not ok then
+			warn("Error: " .. tostring(res))
 		end
+		
+		if ok and res and res.code then
+			return res.code == "KEY_VALID", res.code
+		end
+		return false, "KEY_INVALID"
 	end
 
 	local function saveKey(keyInput)
