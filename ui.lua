@@ -4774,23 +4774,18 @@ local function C_146()
 	end
 	
 	local function _hash(data)
+		local h = nil
 		if syn and syn.crypt and syn.crypt.hash then
-			return syn.crypt.hash(data, "sha1")
+			h = syn.crypt.hash(data, "sha1")
 		elseif crypt and crypt.hash then
-			return crypt.hash(data, "sha1")
+			h = crypt.hash(data, "sha1")
 		elseif sha1 then
-			return sha1(data)
-		elseif request then
-			local r = request({
-				Url = "https://api.hashify.net/hash/sha1/hex?value=" .. HttpService:UrlEncode(data),
-				Method = "GET"
-			})
-			if r and r.Body then
-				local d = HttpService:JSONDecode(r.Body)
-				if d and d.Digest then return d.Digest end
-			end
+			h = sha1(data)
 		end
-		return nil
+		if h then
+			h = h:lower():gsub("[^a-f0-9]", "")
+		end
+		return h
 	end
 	
 	local function _hwid()
@@ -4840,9 +4835,11 @@ local function C_146()
 			
 			warn("Node: " .. node)
 			warn("ST: " .. st)
+			warn("Nonce: " .. nonce)
 			warn("HWID: " .. hwid)
 			
 			local sigData = nonce .. _n1 .. keyInput .. _n2 .. st .. _n3 .. hwid
+			warn("SigData: " .. sigData)
 			local sig = _hash(sigData)
 			
 			if not sig then 
@@ -4851,6 +4848,10 @@ local function C_146()
 			end
 			
 			warn("Sig: " .. sig)
+			
+			if node:sub(-1) == "/" then
+				node = node:sub(1, -2)
+			end
 			
 			local url = node .. "/external_check_key?by=" .. _app .. "&key=" .. keyInput
 			warn("URL: " .. url)
