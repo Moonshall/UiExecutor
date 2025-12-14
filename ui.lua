@@ -4753,9 +4753,18 @@ local function C_146()
 
 	local savedKeyFileName = "savedKey.txt"
 	
+	-- Executor Info (sesuai JSON config)
+	local EXECUTOR_INFO = {
+		moduleName = "Enzo",
+		versionName = "Android",
+		appName = "enzo" -- untuk Luarmor
+	}
+	
 	-- Initialize visibility
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
+	
+	print("[ENZO] Executor:", EXECUTOR_INFO.moduleName, EXECUTOR_INFO.versionName)
 
 	-- luarmor
 	local api = nil
@@ -4782,8 +4791,29 @@ local function C_146()
 			KEY_BANNED = "KEY BANNED",
 			KEY_HWID_LOCKED = "KEY MISMATCH HWID",
 			KEY_INCORRECT = "KEY WRONG/DELETED",
+			INVALID_EXECUTOR = "EXECUTOR NOT SUPPORTED",
 		}
 		return codes[code] or "KEY INVALID"
+	end
+	
+	-- Generate HWID untuk Android/Mobile
+	local function getClientHWID()
+		local hwid = ""
+		
+		-- Try multiple methods untuk Android
+		local success1, id1 = pcall(function()
+			return game:GetService("RbxAnalyticsService"):GetClientId()
+		end)
+		
+		if success1 and id1 then
+			hwid = tostring(id1)
+		else
+			-- Fallback: generate dari player info
+			local player = game:GetService("Players").LocalPlayer
+			hwid = tostring(player.UserId) .. "-" .. tostring(os.time())
+		end
+		
+		return hwid
 	end
 
 	local function getKeyInput()
@@ -4812,7 +4842,7 @@ local function C_146()
 		end)
 		
 		if success and status then
-			print("[ENZO] Key check result:", status.code, status.message)
+			print("[ENZO] Key check result:", status.code, status.message or "")
 			
 			if status.code == "KEY_VALID" then
 				-- Return status data for additional info (auth_expire, total_executions, note)
@@ -4826,13 +4856,22 @@ local function C_146()
 				warn("[ENZO] Key is wrong or deleted!")
 				return false, status.code, nil
 				
+			elseif status.code == "INVALID_EXECUTOR" then
+				warn("[ENZO] Executor not supported by Luarmor.")
+				warn("[ENZO] This is an Android executor. External validation required.")
+				warn("[ENZO] HWID:", getClientHWID())
+				warn("[ENZO] Module:", EXECUTOR_INFO.moduleName, EXECUTOR_INFO.versionName)
+				warn("[ENZO] Use test key 'testK3y_Enzo' for bypass or contact support.")
+				return false, status.code, nil
+				
 			else
 				-- Fallback for other codes (blacklisted, key empty/too short, etc.)
-				warn("[ENZO] Key check failed:", status.message, "Code:", status.code)
+				warn("[ENZO] Key check failed:", status.message or "Unknown", "Code:", status.code)
 				return false, status.code, nil
 			end
 		else
-			warn("[ENZO] Error checking key:", status)
+			warn("[ENZO] Error checking key:", tostring(status))
+			warn("[ENZO] Executor:", EXECUTOR_INFO.moduleName, EXECUTOR_INFO.versionName)
 			return false, "KEY_INVALID", nil
 		end
 	end
