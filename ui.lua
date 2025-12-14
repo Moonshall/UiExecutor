@@ -4806,6 +4806,10 @@ local function C_146()
 			return false, "KEY_INVALID", nil
 		end
 		
+		-- Set script_key BEFORE checking
+		getfenv().script_key = keyInput
+		_G.script_key = keyInput
+		
 		-- Validate with Luarmor
 		local success, status = pcall(function()
 			return api.check_key(keyInput)
