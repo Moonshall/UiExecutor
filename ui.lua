@@ -4782,6 +4782,7 @@ local function C_146()
 			KEY_BANNED = "KEY BANNED",
 			KEY_HWID_LOCKED = "KEY MISMATCH HWID",
 			KEY_INCORRECT = "KEY WRONG/DELETED",
+			INVALID_EXECUTOR = "EXECUTOR NOT SUPPORTED",
 		}
 		return codes[code] or "KEY INVALID"
 	end
@@ -4812,7 +4813,7 @@ local function C_146()
 		end)
 		
 		if success and status then
-			print("[ENZO] Key check result:", status.code, status.message)
+			print("[ENZO] Key check result:", status.code, status.message or "")
 			
 			if status.code == "KEY_VALID" then
 				-- Return status data for additional info (auth_expire, total_executions, note)
@@ -4826,13 +4827,18 @@ local function C_146()
 				warn("[ENZO] Key is wrong or deleted!")
 				return false, status.code, nil
 				
+			elseif status.code == "INVALID_EXECUTOR" then
+				warn("[ENZO] Executor not supported by Luarmor. HWID header invalid.")
+				warn("[ENZO] Please use test key: testK3y_Enzo or whitelist your executor.")
+				return false, status.code, nil
+				
 			else
 				-- Fallback for other codes (blacklisted, key empty/too short, etc.)
-				warn("[ENZO] Key check failed:", status.message, "Code:", status.code)
+				warn("[ENZO] Key check failed:", status.message or "Unknown error", "Code:", status.code)
 				return false, status.code, nil
 			end
 		else
-			warn("[ENZO] Error checking key:", status)
+			warn("[ENZO] Error checking key:", tostring(status))
 			return false, "KEY_INVALID", nil
 		end
 	end
@@ -4950,10 +4956,25 @@ local function C_146()
 		end)
 	end)
 
-	local old = continueBtn.TextLabel.Text
-	continueBtn.MouseButton1Click:Connect(function()
-		-- check key
+	-- Function to validate and continue
+	local function validateAndContinue()
 		local key = getKeyInput()
+		
+		-- Validate key format first
+		if key == "" then
+			continueBtn.TextLabel.Text = "ENTER KEY FIRST!"
+			task.wait(2)
+			continueBtn.TextLabel.Text = old
+			return
+		end
+		
+		if #key < 8 and key ~= "testK3y_Enzo" then
+			continueBtn.TextLabel.Text = "KEY TOO SHORT!"
+			task.wait(2)
+			continueBtn.TextLabel.Text = old
+			return
+		end
+		
 		continueBtn.TextLabel.Text = "CHECKING KEY..."
 
 		local result, code, data = checkKey(key)
@@ -4983,6 +5004,29 @@ local function C_146()
 			continueBtn.TextLabel.Text = getFriendlyCode(code)
 			task.wait(3)
 			continueBtn.TextLabel.Text = old
+		end
+	end
+	
+	local old = continueBtn.TextLabel.Text
+	
+	-- Button click handler
+	continueBtn.MouseButton1Click:Connect(validateAndContinue)
+	
+	-- Enter key support
+	inputKey.TextBox.FocusLost:Connect(function(enterPressed)
+		if enterPressed then
+			validateAndContinue()
+		end
+	end)
+	
+	-- Visual feedback on input
+	inputKey.TextBox:GetPropertyChangedSignal("Text"):Connect(function()
+		local text = inputKey.TextBox.Text
+		if #text > 0 then
+			-- Change appearance when text is entered
+			inputKey.ImageTransparency = 0.4
+		else
+			inputKey.ImageTransparency = 0.6
 		end
 	end)
 end;
