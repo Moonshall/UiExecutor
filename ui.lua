@@ -4755,7 +4755,7 @@ local function C_146()
 	
 	-- Executor Info (sesuai JSON config)
 	local EXECUTOR_INFO = {
-		moduleName = "Enzo",
+		moduleName = "enzo",
 		versionName = "Android",
 		appName = "enzo" -- untuk Luarmor
 	}
