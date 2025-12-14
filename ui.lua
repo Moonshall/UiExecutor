@@ -4753,19 +4753,9 @@ local function C_146()
 
 	local savedKeyFileName = "savedKey.txt"
 	
-	-- Config from JSON (https://raw.githubusercontent.com/Moonshall/my-config/refs/heads/main/config.json)
-	local CONFIG = {
-		moduleName = "enzo",
-		versionName = "Android",
-		disc_invite = "https://discord.gg/enzostudios",
-		script_url = "https://raw.githubusercontent.com/Moonshall/UiExecutor/refs/heads/main/ui.lua"
-	}
-	
 	-- Initialize visibility
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
-	
-	print("[ENZO] Module:", CONFIG.moduleName, "Version:", CONFIG.versionName)
 
 	-- luarmor
 	local api = nil
@@ -4792,27 +4782,8 @@ local function C_146()
 			KEY_BANNED = "KEY BANNED",
 			KEY_HWID_LOCKED = "KEY MISMATCH HWID",
 			KEY_INCORRECT = "KEY WRONG/DELETED",
-			INVALID_EXECUTOR = "EXECUTOR NOT SUPPORTED",
 		}
 		return codes[code] or "KEY INVALID"
-	end
-	
-	-- Get HWID for Android executor
-	local function getHWID()
-		local hwid = ""
-		local success, result = pcall(function()
-			return game:GetService("RbxAnalyticsService"):GetClientId()
-		end)
-		
-		if success and result then
-			hwid = tostring(result)
-		else
-			-- Fallback untuk Android
-			local player = game:GetService("Players").LocalPlayer
-			hwid = "android-" .. tostring(player.UserId)
-		end
-		
-		return hwid
 	end
 
 	local function getKeyInput()
@@ -4841,7 +4812,7 @@ local function C_146()
 		end)
 		
 		if success and status then
-			print("[ENZO] Key check result:", status.code, status.message or "")
+			print("[ENZO] Key check result:", status.code, status.message)
 			
 			if status.code == "KEY_VALID" then
 				-- Return status data for additional info (auth_expire, total_executions, note)
@@ -4855,18 +4826,9 @@ local function C_146()
 				warn("[ENZO] Key is wrong or deleted!")
 				return false, status.code, nil
 				
-			elseif status.code == "INVALID_EXECUTOR" then
-				warn("[ENZO] Android executor not supported by Luarmor standard API")
-				warn("[ENZO] Module:", CONFIG.moduleName, "Version:", CONFIG.versionName)
-				warn("[ENZO] HWID:", getHWID())
-				warn("[ENZO] External validation required (headers missing)")
-				warn("[ENZO] Use test key 'testK3y_Enzo' or setup backend proxy")
-				warn("[ENZO] Contact support:", CONFIG.disc_invite)
-				return false, status.code, nil
-				
 			else
 				-- Fallback for other codes (blacklisted, key empty/too short, etc.)
-				warn("[ENZO] Key check failed:", status.message or "Unknown", "Code:", status.code)
+				warn("[ENZO] Key check failed:", status.message, "Code:", status.code)
 				return false, status.code, nil
 			end
 		else
@@ -4980,7 +4942,7 @@ local function C_146()
 
 	local old = joinDiscord.TextLabel.Text
 	joinDiscord.MouseButton1Click:Connect(function()
-		(setclipboard or function() end)(CONFIG.disc_invite)
+		(setclipboard or function() end)("https://discord.gg/enzostudios")
 		task.spawn(function()
 			joinDiscord.TextLabel.Text = "Discord Link Copied!"
 			task.wait(2)
