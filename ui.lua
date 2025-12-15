@@ -4846,17 +4846,6 @@ local function C_146()
 	else
 		warn("[ENZO] ✗ Failed to load Luarmor API:", result)
 	end
-			_G.executor_hwid = executorFingerprint
-			_G.enzo_fingerprint = executorFingerprint
-			
-			print("[ENZO] ✓ Fingerprint configured:", executorFingerprint)
-		end
-		
-		luarmorLoaded = true
-		print("[ENZO] ✓ Luarmor API loaded successfully")
-	else
-		warn("[ENZO] ✗ Failed to load Luarmor API:", result)
-	end
 
 	local function getFriendlyCode(code)
 		local codes = {
