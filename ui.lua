@@ -4757,10 +4757,53 @@ local function C_146()
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
 
-	-- luarmor
+	-- luarmor with fingerprint support
 	local api = nil
 	local luarmorLoaded = false
+	local executorFingerprint = nil
 	
+	-- Step 1: Detect executor fingerprint before loading Luarmor
+	pcall(function()
+		print("[ENZO] Detecting executor fingerprint...")
+		local testResponse = request({
+			Url = "http://httpbin.org/get",
+			Method = "GET",
+		})
+		
+		if testResponse and testResponse.Body then
+			local decoded = game:GetService("HttpService"):JSONDecode(testResponse.Body)
+			if decoded and decoded.headers then
+				-- Look for Enzo-fingerprint or any fingerprint header
+				for headerName, headerValue in pairs(decoded.headers) do
+					if headerName:lower():find("fingerprint") or headerName:lower():find("hwid") then
+						executorFingerprint = headerValue
+						print("[ENZO] ✓ Fingerprint found:", headerName, "=", headerValue)
+						break
+					end
+				end
+			end
+		end
+		
+		if not executorFingerprint then
+			warn("[ENZO] No fingerprint detected from executor")
+		end
+	end)
+	
+	-- Step 2: Override request to inject fingerprint BEFORE loading Luarmor
+	local original_request = request
+	if executorFingerprint then
+		request = function(options)
+			if options and options.Url and options.Url:find("luarmor") then
+				-- Only inject for Luarmor requests
+				options.Headers = options.Headers or {}
+				options.Headers["Enzo-fingerprint"] = executorFingerprint
+				print("[ENZO] Injecting fingerprint to Luarmor request")
+			end
+			return original_request(options)
+		end
+	end
+	
+	-- Step 3: Now load Luarmor (will use modified request function)
 	local success, result = pcall(function()
 		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 	end)
@@ -4770,6 +4813,9 @@ local function C_146()
 		api.script_id = "5e98496b02a8a38fca58521631b95a07"
 		luarmorLoaded = true
 		print("[ENZO] Luarmor API loaded successfully")
+		if executorFingerprint then
+			print("[ENZO] Fingerprint will be sent with key check")
+		end
 	else
 		warn("[ENZO] Failed to load Luarmor API:", result)
 	end
