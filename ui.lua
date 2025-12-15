@@ -4757,85 +4757,10 @@ local function C_146()
 	keySysFrame.Visible = true
 	mainFrame.Visible = false
 
-	-- luarmor with fingerprint support
+	-- luarmor
 	local api = nil
 	local luarmorLoaded = false
-	local executorFingerprint = nil
 	
-	-- Step 1: Try to get HWID/Fingerprint
-	pcall(function()
-		print("[ENZO] Detecting executor HWID...")
-		
-		-- Method 1: Use gethwid() first (most reliable)
-		if gethwid then
-			executorFingerprint = gethwid()
-			print("[ENZO] ✓ Using gethwid():", executorFingerprint)
-		-- Method 2: Try identifyexecutor
-		elseif identifyexecutor then
-			local execName = identifyexecutor()
-			print("[ENZO] ✓ Executor:", execName)
-			-- Generate pseudo-HWID from executor name
-			executorFingerprint = game:GetService("HttpService"):GenerateGUID(false):gsub("-", "")
-			print("[ENZO] ✓ Generated HWID:", executorFingerprint)
-		-- Method 3: Test httpbin to detect auto-injected headers
-		else
-			print("[ENZO] Trying httpbin detection...")
-			local testResponse = request({
-				Url = "http://httpbin.org/get",
-				Method = "GET",
-			})
-			
-			if testResponse and testResponse.Body then
-				local decoded = game:GetService("HttpService"):JSONDecode(testResponse.Body)
-				if decoded and decoded.headers then
-					for headerName, headerValue in pairs(decoded.headers) do
-						if headerName:lower():find("fingerprint") or headerName:lower():find("hwid") then
-							executorFingerprint = headerValue
-							print("[ENZO] ✓ Fingerprint from header:", headerName, "=", headerValue)
-							break
-						end
-					end
-				end
-			end
-		end
-		
-		if not executorFingerprint then
-			warn("[ENZO] ✗ Could not detect HWID - key check may fail!")
-		end
-	end)
-	
-	-- Step 2: Override request/http_request to inject fingerprint BEFORE loading Luarmor
-	local original_request = request
-	local original_http_request = http_request
-	
-	if executorFingerprint then
-		-- Override request function
-		request = function(options)
-			options = options or {}
-			if options.Url and options.Url:find("luarmor") then
-				options.Headers = options.Headers or {}
-				options.Headers["Enzo-Fingerprint"] = executorFingerprint
-				print("[ENZO] → Injecting Enzo-Fingerprint to Luarmor")
-			end
-			return original_request(options)
-		end
-		
-		-- Override http_request if exists
-		if original_http_request then
-			http_request = function(options)
-				options = options or {}
-				if options.Url and options.Url:find("luarmor") then
-					options.Headers = options.Headers or {}
-					options.Headers["Enzo-Fingerprint"] = executorFingerprint
-				end
-				return original_http_request(options)
-			end
-		end
-		
-		print("[ENZO] Request override active with fingerprint:", executorFingerprint)
-	end
-	
-	-- Step 3: Now load Luarmor (will use modified request function)
 	local success, result = pcall(function()
 		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 	end)
