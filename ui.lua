@@ -4761,6 +4761,25 @@ local function C_146()
 	local api = nil
 	local luarmorLoaded = false
 	
+	-- Generate HWID for the current executor
+	local function getHWID()
+		-- Try multiple methods to get HWID
+		if gethwid then
+			return gethwid()
+		elseif identifyexecutor then
+			local executor = identifyexecutor()
+			-- Generate a unique HWID based on executor and game info
+			local base = executor .. tostring(game.PlaceId) .. tostring(game.JobId)
+			return game:GetService("HttpService"):GenerateGUID(false):gsub("-", "")
+		else
+			-- Fallback: Generate pseudo-HWID
+			return game:GetService("HttpService"):GenerateGUID(false):gsub("-", "")
+		end
+	end
+	
+	local currentHWID = getHWID()
+	print("[ENZO] HWID:", currentHWID)
+	
 	local success, result = pcall(function()
 		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 	end)
@@ -4768,6 +4787,41 @@ local function C_146()
 	if success and result then
 		api = result
 		api.script_id = "5e98496b02a8a38fca58521631b95a07"
+		
+		-- Set HWID header if supported
+		if api.set_hwid then
+			pcall(function()
+				api.set_hwid(currentHWID)
+				print("[ENZO] HWID header set successfully")
+			end)
+		end
+		
+		-- Override request function to include HWID header
+		if request then
+			local original_request = request
+			request = function(options)
+				options = options or {}
+				options.Headers = options.Headers or {}
+				options.Headers["HWID"] = currentHWID
+				options.Headers["Luarmor-HWID"] = currentHWID
+				options.Headers["X-HWID"] = currentHWID
+				return original_request(options)
+			end
+		end
+		
+		-- Override http_request if it exists
+		if http_request then
+			local original_http_request = http_request
+			http_request = function(options)
+				options = options or {}
+				options.Headers = options.Headers or {}
+				options.Headers["HWID"] = currentHWID
+				options.Headers["Luarmor-HWID"] = currentHWID
+				options.Headers["X-HWID"] = currentHWID
+				return original_http_request(options)
+			end
+		end
+		
 		luarmorLoaded = true
 		print("[ENZO] Luarmor API loaded successfully")
 	else
