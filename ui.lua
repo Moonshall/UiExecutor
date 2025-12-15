@@ -4816,6 +4816,12 @@ local function C_146()
 				options.Headers = options.Headers or {}
 				options.Headers["Enzo-Fingerprint"] = executorFingerprint
 				print("[ENZO] → Injecting Enzo-Fingerprint to Luarmor")
+			end
+			return original_request(options)
+		end
+		
+		-- Override http_request if exists
+		if original_http_request then
 			http_request = function(options)
 				options = options or {}
 				if options.Url and options.Url:find("luarmor") then
