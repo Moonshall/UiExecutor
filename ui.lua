@@ -4761,24 +4761,50 @@ local function C_146()
 	local api = nil
 	local luarmorLoaded = false
 	
-	-- Generate HWID for the current executor
-	local function getHWID()
-		-- Try multiple methods to get HWID
-		if gethwid then
-			return gethwid()
-		elseif identifyexecutor then
-			local executor = identifyexecutor()
-			-- Generate a unique HWID based on executor and game info
-			local base = executor .. tostring(game.PlaceId) .. tostring(game.JobId)
-			return game:GetService("HttpService"):GenerateGUID(false):gsub("-", "")
-		else
-			-- Fallback: Generate pseudo-HWID
-			return game:GetService("HttpService"):GenerateGUID(false):gsub("-", "")
+	-- Detect executor fingerprint header (specifically "Enzo-fingerprint")
+	local executorFingerprint = nil
+	local fingerprintHeaderName = "Enzo-fingerprint" -- Known header name
+	
+	local function detectFingerprint()
+		local success, response = pcall(function()
+			return request({
+				Url = "http://httpbin.org/get",
+				Method = "GET",
+			})
+		end)
+		
+		if success and response and response.Body then
+			local decodeSuccess, decoded = pcall(function()
+				return game:GetService("HttpService"):JSONDecode(response.Body)
+			end)
+			
+			if decodeSuccess and decoded and decoded.headers then
+				-- First try the known header name
+				if decoded.headers[fingerprintHeaderName] then
+					executorFingerprint = decoded.headers[fingerprintHeaderName]
+					print("[ENZO] Detected Enzo-fingerprint:", executorFingerprint)
+					return true
+				end
+				
+				-- Fallback: Search for any fingerprint or HWID header
+				for headerName, headerValue in pairs(decoded.headers) do
+					local lowerHeader = headerName:lower()
+					if lowerHeader:match("fingerprint") or lowerHeader:match("hwid") then
+						fingerprintHeaderName = headerName
+						executorFingerprint = headerValue
+						print("[ENZO] Detected fingerprint header:", headerName, "=", headerValue)
+						return true
+					end
+				end
+			end
 		end
+		
+		warn("[ENZO] Could not detect executor fingerprint header")
+		return false
 	end
 	
-	local currentHWID = getHWID()
-	print("[ENZO] HWID:", currentHWID)
+	-- Try to detect fingerprint
+	detectFingerprint()
 	
 	local success, result = pcall(function()
 		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
@@ -4788,38 +4814,23 @@ local function C_146()
 		api = result
 		api.script_id = "5e98496b02a8a38fca58521631b95a07"
 		
-		-- Set HWID header if supported
-		if api.set_hwid then
-			pcall(function()
-				api.set_hwid(currentHWID)
-				print("[ENZO] HWID header set successfully")
-			end)
-		end
-		
-		-- Override request function to include HWID header
-		if request then
-			local original_request = request
-			request = function(options)
-				options = options or {}
-				options.Headers = options.Headers or {}
-				options.Headers["HWID"] = currentHWID
-				options.Headers["Luarmor-HWID"] = currentHWID
-				options.Headers["X-HWID"] = currentHWID
-				return original_request(options)
+		-- Pass the fingerprint to Luarmor
+		if executorFingerprint then
+			-- Try multiple methods to set HWID
+			if api.set_hwid then
+				pcall(function()
+					api.set_hwid(executorFingerprint)
+					print("[ENZO] HWID set via api.set_hwid:", executorFingerprint)
+				end)
 			end
-		end
-		
-		-- Override http_request if it exists
-		if http_request then
-			local original_http_request = http_request
-			http_request = function(options)
-				options = options or {}
-				options.Headers = options.Headers or {}
-				options.Headers["HWID"] = currentHWID
-				options.Headers["Luarmor-HWID"] = currentHWID
-				options.Headers["X-HWID"] = currentHWID
-				return original_http_request(options)
-			end
+			
+			-- Also set as global for Luarmor to use
+			_G.executor_hwid = executorFingerprint
+			_G.enzo_fingerprint = executorFingerprint
+			
+			print("[ENZO] Fingerprint ready for Luarmor:", executorFingerprint)
+		else
+			warn("[ENZO] No fingerprint detected - key check may fail")
 		end
 		
 		luarmorLoaded = true
