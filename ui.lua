@@ -4761,6 +4761,39 @@ local function C_146()
 	local api = nil
 	local luarmorLoaded = false
 	
+	-- Detect executor fingerprint (for logging/debugging only)
+	local executorFingerprint = nil
+	local fingerprintHeaderName = nil
+	
+	pcall(function()
+		local testResponse = request({
+			Url = "http://httpbin.org/get",
+			Method = "GET",
+		})
+		
+		if testResponse and testResponse.Body then
+			local decoded = game:GetService("HttpService"):JSONDecode(testResponse.Body)
+			if decoded and decoded.headers then
+				-- Find fingerprint header as per sUNC documentation
+				for key, value in pairs(decoded.headers) do
+					if key:match("Fingerprint") then
+						fingerprintHeaderName = key
+						executorFingerprint = value
+						print("[ENZO] Detected fingerprint header:", key, "=", value)
+						break
+					end
+				end
+			end
+		end
+		
+		if executorFingerprint then
+			print("[ENZO] Executor auto-injects:", fingerprintHeaderName)
+		else
+			warn("[ENZO] No fingerprint header detected from executor")
+		end
+	end)
+	
+	-- Load Luarmor API (executor will auto-inject fingerprint to requests)
 	local success, result = pcall(function()
 		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
 	end)
@@ -4770,6 +4803,11 @@ local function C_146()
 		api.script_id = "5e98496b02a8a38fca58521631b95a07"
 		luarmorLoaded = true
 		print("[ENZO] Luarmor API loaded successfully")
+		
+		-- Let executor handle fingerprint injection naturally
+		if executorFingerprint then
+			print("[ENZO] Fingerprint will be auto-injected by executor")
+		end
 	else
 		warn("[ENZO] Failed to load Luarmor API:", result)
 	end
