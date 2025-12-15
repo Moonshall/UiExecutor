@@ -4761,9 +4761,8 @@ local function C_146()
 	local api = nil
 	local luarmorLoaded = false
 	
-	-- Step 1: Detect executor fingerprint header (specifically "Enzo-fingerprint")
+	-- Detect executor fingerprint from httpbin test
 	local executorFingerprint = nil
-	local fingerprintHeaderName = "Enzo-fingerprint"
 	
 	print("[ENZO] Detecting executor fingerprint...")
 	local detectSuccess, response = pcall(function()
@@ -4779,11 +4778,12 @@ local function C_146()
 		end)
 		
 		if decodeSuccess and decoded and decoded.headers then
-			-- Check for Enzo-fingerprint header
+			-- Look for Enzo-fingerprint or any fingerprint/hwid header
 			for headerName, headerValue in pairs(decoded.headers) do
-				if headerName == fingerprintHeaderName or headerName:lower():match("fingerprint") or headerName:lower():match("hwid") then
+				if headerName:match("Enzo%-[Ff]ingerprint") or 
+				   headerName:lower():match("fingerprint") or 
+				   headerName:lower():match("hwid") then
 					executorFingerprint = headerValue
-					fingerprintHeaderName = headerName
 					print("[ENZO] ✓ Fingerprint detected:", headerName, "=", headerValue)
 					break
 				end
@@ -4791,45 +4791,17 @@ local function C_146()
 		end
 	end
 	
+	-- Fallback to gethwid() if detection failed
+	if not executorFingerprint and gethwid then
+		executorFingerprint = gethwid()
+		print("[ENZO] Using gethwid() fallback:", executorFingerprint)
+	end
+	
 	if not executorFingerprint then
-		warn("[ENZO] ✗ Could not detect executor fingerprint - using fallback")
-		-- Fallback: try gethwid() if available
-		if gethwid then
-			executorFingerprint = gethwid()
-			print("[ENZO] Using gethwid():", executorFingerprint)
-		end
+		warn("[ENZO] ✗ No fingerprint detected - key check will likely fail")
 	end
 	
-	-- Step 2: Override request function to inject fingerprint header BEFORE loading Luarmor
-	if executorFingerprint and request then
-		local original_request = request
-		request = function(options)
-			options = options or {}
-			options.Headers = options.Headers or {}
-			-- Inject the fingerprint header into ALL requests
-			options.Headers[fingerprintHeaderName] = executorFingerprint
-			options.Headers["Enzo-Fingerprint"] = executorFingerprint -- Also try this format
-			options.Headers["HWID"] = executorFingerprint
-			return original_request(options)
-		end
-		print("[ENZO] ✓ Request function overridden to inject fingerprint header")
-	end
-	
-	-- Also override http_request if available
-	if executorFingerprint and http_request then
-		local original_http_request = http_request
-		http_request = function(options)
-			options = options or {}
-			options.Headers = options.Headers or {}
-			options.Headers[fingerprintHeaderName] = executorFingerprint
-			options.Headers["Enzo-Fingerprint"] = executorFingerprint
-			options.Headers["HWID"] = executorFingerprint
-			return original_http_request(options)
-		end
-		print("[ENZO] ✓ http_request function overridden")
-	end
-	
-	-- Step 3: Now load Luarmor (it will use the overridden request function)
+	-- Load Luarmor API
 	print("[ENZO] Loading Luarmor API...")
 	local success, result = pcall(function()
 		return loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
@@ -4839,15 +4811,41 @@ local function C_146()
 		api = result
 		api.script_id = "5e98496b02a8a38fca58521631b95a07"
 		
-		-- Set fingerprint to Luarmor if method exists
+		-- CRITICAL: Set the HWID to Luarmor API before any key check
 		if executorFingerprint then
+			-- Method 1: Direct property assignment (most reliable)
+			pcall(function()
+				api.hwid = executorFingerprint
+				print("[ENZO] ✓ Set api.hwid =", executorFingerprint)
+			end)
+			
+			-- Method 2: Use set_hwid if available
 			if api.set_hwid then
 				pcall(function()
 					api.set_hwid(executorFingerprint)
+					print("[ENZO] ✓ Called api.set_hwid()")
 				end)
 			end
 			
-			-- Set as globals
+			-- Method 3: Set identifier if available
+			if api.set_identifier then
+				pcall(function()
+					api.set_identifier(executorFingerprint)
+					print("[ENZO] ✓ Called api.set_identifier()")
+				end)
+			end
+			
+			-- Set globals for backward compatibility
+			_G.executor_hwid = executorFingerprint
+			_G.enzo_fingerprint = executorFingerprint
+			getfenv().hwid = executorFingerprint
+		end
+		
+		luarmorLoaded = true
+		print("[ENZO] ✓ Luarmor API loaded successfully")
+	else
+		warn("[ENZO] ✗ Failed to load Luarmor API:", result)
+	end
 			_G.executor_hwid = executorFingerprint
 			_G.enzo_fingerprint = executorFingerprint
 			
