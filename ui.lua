@@ -4814,15 +4814,8 @@ local function C_146()
 			options = options or {}
 			if options.Url and options.Url:find("luarmor") then
 				options.Headers = options.Headers or {}
-				-- Try multiple header names that Luarmor might accept
-				options.Headers["hwid"] = executorFingerprint
-				options.Headers["HWID"] = executorFingerprint
-				options.Headers["Hwid"] = executorFingerprint
-				options.Headers["fingerprint"] = executorFingerprint
-				options.Headers["Fingerprint"] = executorFingerprint
 				options.Headers["Enzo-fingerprint"] = executorFingerprint
-				options.Headers["executor-fingerprint"] = executorFingerprint
-				print("[ENZO] → Injecting fingerprint to Luarmor request")
+				print("[ENZO] → Injecting Enzo-fingerprint to Luarmor")
 			end
 			return original_request(options)
 		end
@@ -4833,31 +4826,7 @@ local function C_146()
 				options = options or {}
 				if options.Url and options.Url:find("luarmor") then
 					options.Headers = options.Headers or {}
-					options.Headers["hwid"] = executorFingerprint
-					options.Headers["HWID"] = executorFingerprint
-					options.Headers["Hwid"] = executorFingerprint
-					options.Headers["fingerprint"] = executorFingerprint
-					options.Headers["Fingerprint"] = executorFingerprint
 					options.Headers["Enzo-fingerprint"] = executorFingerprint
-				options.Headers["executor-fingerprint"] = executorFingerprint
-				print("[ENZO] → Injecting fingerprint headers to Luarmor")
-			end
-			return original_request(options)
-		end
-		
-		-- Override http_request if exists
-		if original_http_request then
-			http_request = function(options)
-				options = options or {}
-				if options.Url and options.Url:find("luarmor") then
-					options.Headers = options.Headers or {}
-					options.Headers["hwid"] = executorFingerprint
-					options.Headers["HWID"] = executorFingerprint
-					options.Headers["Hwid"] = executorFingerprint
-					options.Headers["fingerprint"] = executorFingerprint
-					options.Headers["Fingerprint"] = executorFingerprint
-					options.Headers["Enzo-fingerprint"] = executorFingerprint
-					options.Headers["executor-fingerprint"] = executorFingerprint
 				end
 				return original_http_request(options)
 			end
