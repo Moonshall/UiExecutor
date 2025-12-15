@@ -4801,13 +4801,34 @@ local function C_146()
 	if success and result then
 		api = result
 		api.script_id = "5e98496b02a8a38fca58521631b95a07"
+		
+		-- CRITICAL: Try to explicitly set HWID to Luarmor API
+		if executorFingerprint then
+			-- Try multiple methods to pass HWID to Luarmor
+			pcall(function() 
+				api.hwid = executorFingerprint 
+				print("[ENZO] Set api.hwid =", executorFingerprint)
+			end)
+			pcall(function() 
+				if api.set_hwid then 
+					api.set_hwid(executorFingerprint) 
+					print("[ENZO] Called api.set_hwid()")
+				end 
+			end)
+			pcall(function() 
+				if api.set_identifier then 
+					api.set_identifier(executorFingerprint) 
+					print("[ENZO] Called api.set_identifier()")
+				end 
+			end)
+			-- Set globals
+			_G.hwid = executorFingerprint
+			_G.fingerprint = executorFingerprint
+			print("[ENZO] Fingerprint configured:", executorFingerprint)
+		end
+		
 		luarmorLoaded = true
 		print("[ENZO] Luarmor API loaded successfully")
-		
-		-- Let executor handle fingerprint injection naturally
-		if executorFingerprint then
-			print("[ENZO] Fingerprint will be auto-injected by executor")
-		end
 	else
 		warn("[ENZO] Failed to load Luarmor API:", result)
 	end
